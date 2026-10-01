@@ -12,11 +12,11 @@
   ],
   "author": "Mario Ortega",
   "license": "MIT",
-  "packageManager": "pnpm@11.13.0",
+  "packageManager": "pnpm@11.28.3",
   "devDependencies": {
-    "@biomejs/biome": "2.5.3",
-    "@types/chrome": "^0.2.2",
-    "esbuild": "^0.28.1",
+    "@biomejs/biome": "2.5.14",
+    "@types/chrome": "^0.3.4",
+    "esbuild": "^0.28.2",
     "typescript": "^7.0.2"
   },
   "type": "module"
