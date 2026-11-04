@@ -1,6 +1,9 @@
 import { sendFetchHtmlMessage, sendFetchMessage } from "./chrome-message";
 
+declare const __AUTH_TOKEN__: string;
+
 const CSSTATS_BASE_URL = "https://csstats.gg/player";
+const AUTH_HEADER = __AUTH_TOKEN__;
 
 export interface PremierRating {
   season: number;
@@ -32,7 +35,9 @@ export async function fetchPlayerStats(
 
   const [profileHtml, statsHtml] = await Promise.all([
     sendFetchMessage(`${CSSTATS_BASE_URL}/${steamId64}`),
-    sendFetchHtmlMessage(`${CSSTATS_BASE_URL}/${steamId64}/stats`),
+    sendFetchHtmlMessage(`${CSSTATS_BASE_URL}/${steamId64}/stats`, {
+      "x-custom-auth": AUTH_HEADER,
+    }),
   ]);
 
   if (!profileHtml) return { ok: false, error: "fetch_failed" };
