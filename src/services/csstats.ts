@@ -1,4 +1,4 @@
-import { sendFetchMessage } from "./chrome-message";
+import { sendFetchHtmlMessage, sendFetchMessage } from "./chrome-message";
 
 const CSSTATS_BASE_URL = "https://csstats.gg/player";
 
@@ -32,7 +32,7 @@ export async function fetchPlayerStats(
 
   const [profileHtml, statsHtml] = await Promise.all([
     sendFetchMessage(`${CSSTATS_BASE_URL}/${steamId64}`),
-    sendFetchMessage(`${CSSTATS_BASE_URL}/${steamId64}/stats`),
+    sendFetchHtmlMessage(`${CSSTATS_BASE_URL}/${steamId64}/stats`),
   ]);
 
   if (!profileHtml) return { ok: false, error: "fetch_failed" };
