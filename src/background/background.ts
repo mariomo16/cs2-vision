@@ -12,4 +12,20 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     })();
     return true;
   }
+  if (message.type === "FETCH_HTML" && typeof message.url === "string") {
+    (async () => {
+      try {
+        const res = await fetch(message.url, { headers: message.headers });
+        if (!res.ok) {
+          sendResponse({ ok: false });
+          return;
+        }
+        const body = await res.text();
+        sendResponse({ ok: true, body });
+      } catch {
+        sendResponse({ ok: false });
+      }
+    })();
+    return true;
+  }
 });
