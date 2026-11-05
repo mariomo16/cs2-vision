@@ -3,7 +3,7 @@
 View CSStats, FACEIT and Leetify data, plus Steam account information.
 
 <picture>
-  <img src="./docs/marquee-promo-tile.png" alt="CS2 Vision preview on a Steam profile" width="720">
+  <img src="./docs/screenshot-01.png" alt="CS2 Vision preview on a Steam profile" width="720">
 </picture>
 
 ## Features
