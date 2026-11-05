@@ -341,6 +341,7 @@
   vertical-align: middle;
   opacity: 0.6;
   transition: opacity 0.1s ease;
+  user-select: none;
 }
 
 .csl-steamid-copy:disabled {
