@@ -8,9 +8,6 @@
     "48": "assets/icons/icon512.png",
     "128": "assets/icons/icon512.png"
   },
-  "action": {
-    "default_popup": "src/popup/popup.html"
-  },
   "background": {
     "service_worker": "dist/background.js",
     "type": "module"
