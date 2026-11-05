@@ -1,10 +1,16 @@
+import dotenv from "dotenv";
 import esbuild from "esbuild";
 
 const isProduction = process.env.NODE_ENV === "production";
+
+if (!isProduction) {
+  dotenv.config({ path: ".env.local" });
+}
+
 const authToken = process.env.AUTH_TOKEN;
 
-if (isProduction && !authToken) {
-  throw new Error("authToken is required in production");
+if (!authToken) {
+  throw new Error("AUTH_TOKEN is required");
 }
 
 const sharedConfig = {
@@ -13,7 +19,7 @@ const sharedConfig = {
   outdir: "dist",
   define: {
     __DEV__: JSON.stringify(!isProduction),
-    __AUTH_TOKEN__: JSON.stringify(isProduction ? authToken : ""),
+    __AUTH_TOKEN__: JSON.stringify(authToken),
   },
 };
 
