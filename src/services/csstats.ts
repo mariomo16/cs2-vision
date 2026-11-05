@@ -30,19 +30,14 @@ interface CacheEntry {
   timestamp: number;
 }
 
-const storageGet = (key: string): Promise<unknown> =>
-  new Promise((resolve) => {
-    chrome.storage.local.get([key], (result) => {
-      resolve(result[key] ?? null);
-    });
-  });
+const storageGet = async (key: string): Promise<unknown> => {
+  const result = await chrome.storage.local.get(key);
+  return result[key] ?? null;
+};
 
-const storageSet = (key: string, value: unknown): Promise<void> =>
-  new Promise((resolve) => {
-    chrome.storage.local.set({ [key]: value }, () => {
-      resolve();
-    });
-  });
+const storageSet = async (key: string, value: unknown): Promise<void> => {
+  await chrome.storage.local.set({ [key]: value });
+};
 
 const cacheKey = (steamId64: string): string => `csstats_${steamId64}`;
 
