@@ -111,15 +111,6 @@ function createStatValue(value: string, label: string): HTMLDivElement {
   return block;
 }
 
-function createSectionHeader(title: string): HTMLDivElement {
-  const header = document.createElement("div");
-  header.className = "csl-container-header";
-  const titleSpan = document.createElement("span");
-  titleSpan.textContent = title;
-  header.append(titleSpan);
-  return header;
-}
-
 function createStatsGrid(): HTMLDivElement {
   const grid = document.createElement("div");
   grid.className = "csl-container-stats-grid";
