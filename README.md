@@ -3,7 +3,7 @@
 View CS2 stats on Steam profiles: K/D, HLTV rating, winrate, total matches, and more. Includes Faceit and Leetify data.
 
 <picture>
-  <img src="./docs/mosaic2.png" alt="CS2 Vision preview on a Steam profile" width="720">
+  <img src="./docs/marquee-promo-tile.png" alt="CS2 Vision preview on a Steam profile" width="720">
 </picture>
 
 ## Features
