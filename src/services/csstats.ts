@@ -53,7 +53,10 @@ const enforceCacheLimit = async (): Promise<void> => {
 
     csStatsEntries.push({
       key,
-      timestamp: entry?.timestamp ?? 0,
+      timestamp:
+        typeof entry?.timestamp === "number" && Number.isFinite(entry.timestamp)
+          ? entry.timestamp
+          : 0,
     });
   }
 
