@@ -308,10 +308,19 @@
 
 .csl-steamid-container {
   font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .csl-steamid-container:not(:last-child) {
   margin-bottom: 12px;
+}
+
+.csl-steamid-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .csl-steamid-label {
@@ -320,7 +329,6 @@
 
 .csl-steamid-value {
   color: #ffffff;
-  margin-left: 6px;
 }
 
 .csl-steamid-copy {
@@ -328,7 +336,6 @@
   border: none;
   cursor: pointer;
   padding: 2px;
-  margin-left: 6px;
   display: inline-flex;
   align-items: center;
   vertical-align: middle;

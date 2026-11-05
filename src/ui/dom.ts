@@ -157,6 +157,10 @@ export function insertSteamId(steamId64: string): void {
   valueSpan.className = "csl-steamid-value";
   valueSpan.textContent = steamId64;
 
+  const left = document.createElement("div");
+  left.className = "csl-steamid-left";
+  left.append(labelSpan, valueSpan);
+
   const copyBtn = document.createElement("button");
   copyBtn.className = "csl-steamid-copy";
   copyBtn.title = "Copy SteamID64";
@@ -181,7 +185,7 @@ export function insertSteamId(steamId64: string): void {
     }, 1500);
   });
 
-  container.append(labelSpan, valueSpan, copyBtn);
+  container.append(left, copyBtn);
 
   const wrapper = document.createElement("div");
   wrapper.className =
