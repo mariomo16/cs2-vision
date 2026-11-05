@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "CS2 Vision",
-  "description": "View CS2 stats on Steam: K/D, HLTV rating, winrate, total matches and much more. Includes Faceit and Leetify data.",
+  "description": "View CSStats, FACEIT and Leetify data, plus Steam account information.",
   "version": "1.0.0",
   "icons": {
     "16": "assets/icons/icon512.png",
