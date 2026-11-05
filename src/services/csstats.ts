@@ -135,7 +135,7 @@ export async function fetchPlayerStats(
     );
     if (!kSpan) return null;
     const vSpan = kSpan.nextElementSibling;
-    if (!vSpan || !vSpan.classList.contains("v")) return null;
+    if (!vSpan?.classList.contains("v")) return null;
     const ratingDiv = vSpan.querySelector("div.cs2rating");
     return parseRatingFromDiv(ratingDiv);
   };
