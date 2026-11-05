@@ -1,3 +1,4 @@
+declare const __DEV__: boolean;
 declare const __AUTH_TOKEN__: string;
 
 const ALLOWED_HOSTS = ["csstats.gg", "cs2-lens-proxy.vercel.app"];
@@ -45,7 +46,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
         const body = await res.text();
         sendResponse({ ok: true, body });
       } catch (error) {
-        console.error("[CS2 Vision] FETCH:", error);
+        __DEV__ && console.error("[CS2 Vision] FETCH:", error);
         sendResponse({ ok: false });
       }
     })();
@@ -73,7 +74,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
         const body = await res.text();
         sendResponse({ ok: true, body });
       } catch (error) {
-        console.error("[CS2 Vision] FETCH_HTML:", error);
+        __DEV__ && console.error("[CS2 Vision] FETCH_HTML:", error);
         sendResponse({ ok: false });
       }
     })();
