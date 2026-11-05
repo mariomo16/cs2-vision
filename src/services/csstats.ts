@@ -234,11 +234,12 @@ export async function fetchPlayerStats(
   };
 
   if (!__DEV__) {
-    await enforceCacheLimit();
     await storageSet(cacheKey(steamId64), {
       data,
       timestamp: Date.now(),
     });
+
+    await enforceCacheLimit();
   }
 
   return { ok: true, data };
