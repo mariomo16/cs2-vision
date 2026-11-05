@@ -38,9 +38,7 @@ const createTrackingNotice = (
 
   const icon = document.createElement("span");
   icon.className = "csl-tracking-icon";
-  const svgUrl = chrome.runtime.getURL(
-    "assets/ui/exclamation-triangle.svg",
-  );
+  const svgUrl = chrome.runtime.getURL("assets/ui/exclamation-triangle.svg");
   icon.style.maskImage = `url("${svgUrl}")`;
   icon.style.webkitMaskImage = `url("${svgUrl}")`;
 
@@ -169,25 +167,21 @@ export function populateStatsBlock(
   const premierRow = document.createElement("div");
   premierRow.className = "csl-premier-row";
 
-  if (csstats.premierRatings.length > 0) {
-    const sortedBySeason = [...csstats.premierRatings].sort(
-      (a, b) => b.season - a.season,
-    );
-    const currentPremier = sortedBySeason[0];
-    const bestPremier = csstats.premierRatings.reduce((max, current) => {
-      const maxVal = max.bestRating ?? 0;
-      const currentVal = current.bestRating ?? 0;
-      return currentVal > maxVal ? current : max;
-    }, csstats.premierRatings[0]);
+  const hasPremier =
+    csstats.currentPremierRating != null || csstats.bestPremierRating != null;
 
+  if (hasPremier) {
     premierRow.append(
       createRatingDisplay({
         title: "Current",
-        rating: currentPremier.latestRating,
+        rating: csstats.currentPremierRating,
       }),
     );
     premierRow.append(
-      createRatingDisplay({ title: "Best", rating: bestPremier.bestRating }),
+      createRatingDisplay({
+        title: "Best",
+        rating: csstats.bestPremierRating,
+      }),
     );
   } else {
     premierRow.append(createRatingDisplay({ title: "Unranked", rating: null }));
@@ -279,9 +273,7 @@ export function appendFaceitBlock(
     if (faceit.verified) {
       const verifiedImg = document.createElement("img");
       verifiedImg.className = "csl-faceit-verified";
-      verifiedImg.src = chrome.runtime.getURL(
-        "assets/faceit/verified.svg",
-      );
+      verifiedImg.src = chrome.runtime.getURL("assets/faceit/verified.svg");
       verifiedImg.alt = "Verified";
       link.append(verifiedImg);
     }

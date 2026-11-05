@@ -5,15 +5,9 @@ declare const __AUTH_TOKEN__: string;
 const CSSTATS_BASE_URL = "https://csstats.gg/player";
 const AUTH_HEADER = __AUTH_TOKEN__;
 
-export interface PremierRating {
-  season: number;
-  latestRating: number | null;
-  bestRating: number | null;
-  wins: number;
-}
-
 export interface PlayerStats {
-  premierRatings: PremierRating[];
+  currentPremierRating: number | null;
+  bestPremierRating: number | null;
   kdRatio: number | null;
   hltvRating: number | null;
   hsPercent: number | null;
@@ -120,49 +114,59 @@ export async function fetchPlayerStats(
     }
   });
 
-  const parsePremierRating = (container: Element | null): number | null => {
-    if (!container) return null;
-    const span = container.querySelector(".cs2rating span");
+  const parseRatingFromDiv = (div: Element | null): number | null => {
+    if (!div) return null;
+    const span = div.querySelector("span");
     if (!span) return null;
-    const main = span.childNodes[0]?.textContent?.trim() ?? "";
+    const main = (span.childNodes[0]?.textContent ?? "").trim();
     if (!main || main === "---") return 0;
-    const decimal =
-      (span.querySelector("small") as HTMLElement | null)?.textContent
-        ?.trim()
-        .replace(",", "") ?? "";
+    const decimal = (span.querySelector("small")?.textContent ?? "")
+      .trim()
+      .replace(",", "");
     return parseInt(main + decimal, 10) || null;
   };
 
-  const premierRatings: PremierRating[] = [];
+  const parseLabelRating = (
+    container: Element | Document,
+    label: string,
+  ): number | null => {
+    const kSpan = Array.from(container.querySelectorAll("span.k")).find(
+      (el) => (el.textContent ?? "").trim() === label,
+    );
+    if (!kSpan) return null;
+    const vSpan = kSpan.nextElementSibling;
+    if (!vSpan || !vSpan.classList.contains("v")) return null;
+    const ratingDiv = vSpan.querySelector("div.cs2rating");
+    return parseRatingFromDiv(ratingDiv);
+  };
 
-  profileDoc.querySelectorAll("#player-ranks .ranks").forEach((rankDiv) => {
-    const icon = rankDiv.querySelector(".icon");
-    if (!icon) return;
+  const pmNow = profileDoc.querySelector(".pm-now");
 
-    const img = icon.querySelector("img");
-    const alt = img?.getAttribute("alt") ?? "";
+  const currentPremierRating = pmNow
+    ? parseLabelRating(pmNow, "Current")
+    : parseLabelRating(profileDoc, "Current");
 
-    if (!alt.startsWith("Premier")) return;
+  const bestCandidates: number[] = [];
 
-    const wins =
-      parseInt(
-        rankDiv.querySelector(".bottom .wins b")?.textContent?.trim() ?? "",
-        10,
-      ) || 0;
+  const pmNowBest = pmNow ? parseLabelRating(pmNow, "Best") : null;
+  if (pmNowBest != null) bestCandidates.push(pmNowBest);
 
-    const seasonMatch = alt.match(/Season (\d+)/);
-    premierRatings.push({
-      season: seasonMatch ? parseInt(seasonMatch[1], 10) : 1,
-      latestRating: parsePremierRating(rankDiv.querySelector(".rank")),
-      bestRating: parsePremierRating(rankDiv.querySelector(".best")),
-      wins,
-    });
+  profileDoc.querySelectorAll(".rk-row").forEach((row) => {
+    const rkVs = row.querySelectorAll(".rk-v");
+    if (rkVs.length >= 2) {
+      const best = parseRatingFromDiv(rkVs[1].querySelector("div.cs2rating"));
+      if (best != null) bestCandidates.push(best);
+    }
   });
+
+  const bestPremierRating =
+    bestCandidates.length > 0 ? Math.max(...bestCandidates) : null;
 
   return {
     ok: true,
     data: {
-      premierRatings,
+      currentPremierRating,
+      bestPremierRating,
       kdRatio,
       hltvRating,
       hsPercent,
