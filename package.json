@@ -15,7 +15,7 @@
   "license": "MIT",
   "packageManager": "pnpm@12.16.1",
   "devDependencies": {
-    "@biomejs/biome": "2.6.5",
+    "@biomejs/biome": "2.6.4",
     "@types/chrome": "^0.3.7",
     "cross-env": "^10.1.0",
     "esbuild": "^0.28.2",
