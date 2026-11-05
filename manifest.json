@@ -12,6 +12,7 @@
     "service_worker": "dist/background.js",
     "type": "module"
   },
+  "permissions": ["storage"],
   "host_permissions": [
     "https://csstats.gg/*",
     "https://cs2-lens-proxy.vercel.app/*"
