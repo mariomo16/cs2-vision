@@ -3,7 +3,8 @@
   "version": "0.4.1",
   "description": "Inject real-time csstats, Faceit and Leetify data into Steam profiles",
   "scripts": {
-    "build": "node build.js"
+    "dev": "cross-env NODE_ENV=development node build.js",
+    "build": "cross-env NODE_ENV=production node build.js"
   },
   "keywords": [
     "chrome-extension",
@@ -16,6 +17,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.6.5",
     "@types/chrome": "^0.3.7",
+    "cross-env": "^10.1.0",
     "esbuild": "^0.28.2",
     "typescript": "^7.0.2"
   },
