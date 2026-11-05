@@ -1,9 +1,10 @@
 import esbuild from "esbuild";
 
-const AUTH_TOKEN = process.env.AUTH_TOKEN;
+const isProduction = process.env.NODE_ENV === "production";
+const authToken = process.env.AUTH_TOKEN;
 
-if (!AUTH_TOKEN) {
-  throw new Error("AUTH_TOKEN is not defined");
+if (isProduction && !authToken) {
+  throw new Error("authToken is required in production");
 }
 
 const sharedConfig = {
@@ -11,7 +12,8 @@ const sharedConfig = {
   target: "es2022",
   outdir: "dist",
   define: {
-    __AUTH_TOKEN__: JSON.stringify(AUTH_TOKEN),
+    __DEV__: JSON.stringify(!isProduction),
+    __AUTH_TOKEN__: JSON.stringify(isProduction ? authToken : ""),
   },
 };
 
