@@ -182,5 +182,10 @@ export function insertSteamId(steamId64: string): void {
   });
 
   container.append(labelSpan, valueSpan, copyBtn);
-  rightCol.prepend(container);
+
+  const wrapper = document.createElement("div");
+  wrapper.className =
+    "showcase_content_bg csl-showcase-content-bg csl-steamid-wrapper";
+  wrapper.append(container);
+  rightCol.prepend(wrapper);
 }
