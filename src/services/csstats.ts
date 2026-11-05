@@ -1,9 +1,11 @@
 import { sendFetchHtmlMessage, sendFetchMessage } from "./chrome-message";
 
 declare const __AUTH_TOKEN__: string;
+declare const __DEV__: boolean;
 
 const CSSTATS_BASE_URL = "https://csstats.gg/player";
 const AUTH_HEADER = __AUTH_TOKEN__;
+const CACHE_TTL_MS = 5 * 60 * 1000;
 
 export interface PlayerStats {
   currentPremierRating: number | null;
@@ -22,9 +24,37 @@ export type StatsResponse =
   | { ok: true; data: PlayerStats }
   | { ok: false; error: "private" | "not_found" | "fetch_failed" };
 
+interface CacheEntry {
+  data: PlayerStats;
+  timestamp: number;
+}
+
+const storageGet = (key: string): Promise<unknown> =>
+  new Promise((resolve) => {
+    chrome.storage.local.get([key], (result) => {
+      resolve(result[key] ?? null);
+    });
+  });
+
+const storageSet = (key: string, value: unknown): Promise<void> =>
+  new Promise((resolve) => {
+    chrome.storage.local.set({ [key]: value }, () => {
+      resolve();
+    });
+  });
+
+const cacheKey = (steamId64: string): string => `csstats_${steamId64}`;
+
 export async function fetchPlayerStats(
   steamId64: string,
 ): Promise<StatsResponse> {
+  if (!__DEV__) {
+    const cached = (await storageGet(cacheKey(steamId64))) as CacheEntry | null;
+    if (cached && Date.now() - cached.timestamp < CACHE_TTL_MS) {
+      return { ok: true, data: cached.data };
+    }
+  }
+
   const parser = new DOMParser();
 
   const [profileHtml, statsHtml] = await Promise.all([
@@ -162,19 +192,25 @@ export async function fetchPlayerStats(
   const bestPremierRating =
     bestCandidates.length > 0 ? Math.max(...bestCandidates) : null;
 
-  return {
-    ok: true,
-    data: {
-      currentPremierRating,
-      bestPremierRating,
-      kdRatio,
-      hltvRating,
-      hsPercent,
-      matches,
-      winRate,
-      adr,
-      trackingDisabled,
-      trackingInactive,
-    },
+  const data: PlayerStats = {
+    currentPremierRating,
+    bestPremierRating,
+    kdRatio,
+    hltvRating,
+    hsPercent,
+    matches,
+    winRate,
+    adr,
+    trackingDisabled,
+    trackingInactive,
   };
+
+  if (!__DEV__) {
+    await storageSet(cacheKey(steamId64), {
+      data,
+      timestamp: Date.now(),
+    });
+  }
+
+  return { ok: true, data };
 }
