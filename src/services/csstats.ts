@@ -103,6 +103,8 @@ export async function fetchPlayerStats(
     profileDoc
       .querySelector(".id-ban")
       ?.textContent?.replace(/\s+/g, " ")
+      .trim()
+      .replace(/\.+$/, "")
       .trim() || null;
 
   if (
