@@ -1,10 +1,8 @@
 import { sendFetchHtmlMessage, sendFetchMessage } from "./chrome-message";
 
-declare const __AUTH_TOKEN__: string;
 declare const __DEV__: boolean;
 
 const CSSTATS_BASE_URL = "https://csstats.gg/player";
-const AUTH_HEADER = __AUTH_TOKEN__;
 const CACHE_TTL_MS = 5 * 60 * 1000;
 const MAX_CACHE_ENTRIES = 500;
 
@@ -85,9 +83,7 @@ export async function fetchPlayerStats(
 
   const [profileHtml, statsHtml] = await Promise.all([
     sendFetchMessage(`${CSSTATS_BASE_URL}/${steamId64}`),
-    sendFetchHtmlMessage(`${CSSTATS_BASE_URL}/${steamId64}/stats`, {
-      "x-custom-auth": AUTH_HEADER,
-    }),
+    sendFetchHtmlMessage(`${CSSTATS_BASE_URL}/${steamId64}/stats`),
   ]);
 
   if (!profileHtml) return { ok: false, error: "fetch_failed" };
