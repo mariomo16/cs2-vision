@@ -2,6 +2,10 @@
 
 View CSStats, FACEIT and Leetify data, plus Steam account information.
 
+[![Chrome Web Store Version](https://img.shields.io/chrome-web-store/v/clploogmlpocoolonhlogblopobiccgb?label=version)](https://chromewebstore.google.com/detail/cs2-vision/clploogmlpocoolonhlogblopobiccgb)
+[![Chrome Web Store Users](https://img.shields.io/chrome-web-store/users/clploogmlpocoolonhlogblopobiccgb?label=users)](https://chromewebstore.google.com/detail/cs2-vision/clploogmlpocoolonhlogblopobiccgb)
+[![Chrome Web Store Rating](https://img.shields.io/chrome-web-store/rating/clploogmlpocoolonhlogblopobiccgb?label=rating)](https://chromewebstore.google.com/detail/cs2-vision/clploogmlpocoolonhlogblopobiccgb)
+
 <picture>
   <img src="./docs/screenshot-01.png" alt="CS2 Vision preview on a Steam profile" width="720">
 </picture>
