@@ -6,6 +6,7 @@ declare const __DEV__: boolean;
 const CSSTATS_BASE_URL = "https://csstats.gg/player";
 const AUTH_HEADER = __AUTH_TOKEN__;
 const CACHE_TTL_MS = 5 * 60 * 1000;
+const MAX_CACHE_ENTRIES = 500;
 
 export interface PlayerStats {
   currentPremierRating: number | null;
@@ -44,6 +45,33 @@ const storageSet = (key: string, value: unknown): Promise<void> =>
   });
 
 const cacheKey = (steamId64: string): string => `csstats_${steamId64}`;
+
+const enforceCacheLimit = async (): Promise<void> => {
+  const all = await chrome.storage.local.get(null);
+
+  const csStatsEntries: { key: string; timestamp: number }[] = [];
+
+  for (const [key, value] of Object.entries(all)) {
+    if (!key.startsWith("csstats_")) continue;
+
+    const entry = value as { timestamp?: number } | undefined;
+
+    csStatsEntries.push({
+      key,
+      timestamp: entry?.timestamp ?? 0,
+    });
+  }
+
+  if (csStatsEntries.length <= MAX_CACHE_ENTRIES) return;
+
+  csStatsEntries.sort((a, b) => a.timestamp - b.timestamp);
+
+  const entriesToRemove = csStatsEntries
+    .slice(0, csStatsEntries.length - MAX_CACHE_ENTRIES)
+    .map((entry) => entry.key);
+
+  await chrome.storage.local.remove(entriesToRemove);
+};
 
 export async function fetchPlayerStats(
   steamId64: string,
@@ -206,6 +234,7 @@ export async function fetchPlayerStats(
   };
 
   if (!__DEV__) {
+    await enforceCacheLimit();
     await storageSet(cacheKey(steamId64), {
       data,
       timestamp: Date.now(),
