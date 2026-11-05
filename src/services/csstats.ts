@@ -20,11 +20,16 @@ export interface PlayerStats {
 }
 
 export type StatsResponse =
-  | { ok: true; data: PlayerStats }
-  | { ok: false; error: "private" | "not_found" | "fetch_failed" };
+  | { ok: true; data: PlayerStats; banText: string | null }
+  | {
+      ok: false;
+      error: "private" | "not_found" | "fetch_failed";
+      banText: string | null;
+    };
 
 interface CacheEntry {
   data: PlayerStats;
+  banText: string | null;
   timestamp: number;
 }
 
@@ -75,7 +80,11 @@ export async function fetchPlayerStats(
   if (!__DEV__) {
     const cached = (await storageGet(cacheKey(steamId64))) as CacheEntry | null;
     if (cached && Date.now() - cached.timestamp < CACHE_TTL_MS) {
-      return { ok: true, data: cached.data };
+      return {
+        ok: true,
+        data: cached.data,
+        banText: cached.banText ?? null,
+      };
     }
   }
 
@@ -86,18 +95,24 @@ export async function fetchPlayerStats(
     sendFetchHtmlMessage(`${CSSTATS_BASE_URL}/${steamId64}/stats`),
   ]);
 
-  if (!profileHtml) return { ok: false, error: "fetch_failed" };
+  if (!profileHtml) return { ok: false, error: "fetch_failed", banText: null };
 
   const profileDoc = parser.parseFromString(profileHtml, "text/html");
+
+  const banText =
+    profileDoc
+      .querySelector(".id-ban")
+      ?.textContent?.replace(/\s+/g, " ")
+      .trim() || null;
 
   if (
     profileDoc.querySelector("#outer-wrapper h1")?.textContent?.trim() ===
     "Private Profile"
   ) {
-    return { ok: false, error: "private" };
+    return { ok: false, error: "private", banText };
   }
 
-  if (!statsHtml) return { ok: false, error: "fetch_failed" };
+  if (!statsHtml) return { ok: false, error: "fetch_failed", banText };
 
   const statsDoc = parser.parseFromString(statsHtml, "text/html");
 
@@ -110,7 +125,7 @@ export async function fetchPlayerStats(
   );
 
   if (!statsDoc.querySelector(".content-sub-nav-outer")) {
-    return { ok: false, error: "not_found" };
+    return { ok: false, error: "not_found", banText };
   }
 
   const kdRatio =
@@ -230,11 +245,12 @@ export async function fetchPlayerStats(
   if (!__DEV__) {
     await storageSet(cacheKey(steamId64), {
       data,
+      banText,
       timestamp: Date.now(),
     });
 
     await enforceCacheLimit();
   }
 
-  return { ok: true, data };
+  return { ok: true, data, banText };
 }

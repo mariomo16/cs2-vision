@@ -4,6 +4,7 @@ import { fetchLeetifyStats } from "../services/leetify";
 import {
   buildShowcaseShell,
   createLoadingSpinner,
+  insertBanText,
   insertElement,
   insertSteamId,
 } from "../ui/dom";
@@ -47,6 +48,10 @@ async function init() {
     "Player";
 
   const result: StatsResponse = await fetchPlayerStats(steamId64);
+
+  if (result.banText) {
+    insertBanText(result.banText);
+  }
 
   statsPanel.innerHTML = "";
 

@@ -357,6 +357,16 @@
   filter: brightness(0) invert(0.6);
 }
 
+.csl-ban-wrapper {
+  margin-bottom: 12px;
+}
+
+.csl-ban-text {
+  color: #ef5350;
+  font-size: 14px;
+  font-weight: 500;
+}
+
 .csl-inner-container {
   background: transparent;
   border: none;

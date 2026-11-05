@@ -193,3 +193,21 @@ export function insertSteamId(steamId64: string): void {
   wrapper.append(container);
   rightCol.prepend(wrapper);
 }
+
+export function insertBanText(banText: string): void {
+  const steamIdWrapper = document.querySelector(".csl-steamid-wrapper");
+  if (!steamIdWrapper) return;
+
+  document.querySelector(".csl-ban-wrapper")?.remove();
+
+  const wrapper = document.createElement("div");
+  wrapper.className =
+    "showcase_content_bg csl-showcase-content-bg csl-ban-wrapper";
+
+  const text = document.createElement("div");
+  text.className = "csl-ban-text";
+  text.textContent = banText;
+
+  wrapper.append(text);
+  steamIdWrapper.after(wrapper);
+}
