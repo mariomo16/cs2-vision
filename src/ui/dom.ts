@@ -63,6 +63,14 @@ export function buildShowcaseShell(): {
 
   header.append(titleSpan, faceitInfo);
 
+  const githubLink = document.createElement("a");
+  githubLink.className = "csl-github-link";
+  githubLink.href = "https://github.com/mariomo16/cs2-vision";
+  githubLink.target = "_blank";
+  githubLink.rel = "noopener noreferrer";
+  githubLink.textContent = "View in GitHub";
+  header.append(githubLink);
+
   // Create 3 separate showcase_content_bg containers
   const block1 = document.createElement("div");
   block1.className = "profile_customization_block csl-csstats-block";
