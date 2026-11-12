@@ -80,3 +80,7 @@ body {
 .csl-popup-value {
   color: var(--csl-popup-fg);
 }
+
+.csl-popup-value--muted {
+  color: var(--csl-popup-label);
+}

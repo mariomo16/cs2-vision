@@ -1,7 +1,5 @@
 import { sendFetchHtmlMessage, sendFetchMessage } from "./chrome-message";
 
-declare const __DEV__: boolean;
-
 const CSSTATS_BASE_URL = "https://csstats.gg/player";
 const CACHE_TTL_MS = 5 * 60 * 1000;
 const MAX_CACHE_ENTRIES = 500;
@@ -223,7 +221,9 @@ export async function fetchPlayerStats(
   profileDoc.querySelectorAll(".rk-row").forEach((row) => {
     const rkVs = row.querySelectorAll(".rk-v");
     if (rkVs.length >= 2) {
-      const best = parseRatingFromDiv(rkVs[1].querySelector("div.cs2rating"));
+      const best = parseRatingFromDiv(
+        rkVs[1]?.querySelector("div.cs2rating") ?? null,
+      );
       if (best != null) bestCandidates.push(best);
     }
   });

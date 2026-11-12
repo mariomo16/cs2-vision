@@ -1,11 +1,4 @@
-declare const __DEV__: boolean;
-declare const __AUTH_TOKEN__: string;
-
-const ALLOWED_HOSTS = [
-  "csstats.gg",
-  "cs2-lens-proxy.vercel.app",
-  "api.github.com",
-];
+const ALLOWED_HOSTS = ["csstats.gg", "cs2-lens-proxy.vercel.app"];
 
 const REQUEST_TIMEOUT_MS = 15_000;
 
@@ -85,4 +78,6 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
 
     return true;
   }
+
+  return false;
 });
