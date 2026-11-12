@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "CS2 Vision",
   "description": "View CSStats, FACEIT and Leetify data, plus Steam account information.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "icons": {
     "16": "assets/icons/icon512.png",
     "48": "assets/icons/icon512.png",
