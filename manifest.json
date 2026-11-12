@@ -12,10 +12,19 @@
     "service_worker": "dist/background.js",
     "type": "module"
   },
+  "action": {
+    "default_popup": "dist/popup.html",
+    "default_icon": {
+      "16": "assets/icons/icon512.png",
+      "48": "assets/icons/icon512.png",
+      "128": "assets/icons/icon512.png"
+    }
+  },
   "permissions": ["storage"],
   "host_permissions": [
     "https://csstats.gg/*",
-    "https://cs2-lens-proxy.vercel.app/*"
+    "https://cs2-lens-proxy.vercel.app/*",
+    "https://api.github.com/*"
   ],
   "content_scripts": [
     {

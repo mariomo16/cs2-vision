@@ -1,3 +1,5 @@
+import { execFileSync } from "node:child_process";
+import { copyFile } from "node:fs/promises";
 import dotenv from "dotenv";
 import esbuild from "esbuild";
 
@@ -13,6 +15,17 @@ if (!authToken) {
   throw new Error("AUTH_TOKEN is required");
 }
 
+const getBuildCommit = () => {
+  try {
+    return execFileSync("git", ["rev-parse", "--short", "HEAD"], {
+      encoding: "utf-8",
+      stdio: ["ignore", "pipe", "ignore"],
+    }).trim();
+  } catch {
+    return process.env.GITHUB_SHA?.slice(0, 7) ?? "";
+  }
+};
+
 const sharedConfig = {
   bundle: true,
   target: "es2022",
@@ -20,6 +33,7 @@ const sharedConfig = {
   define: {
     __DEV__: JSON.stringify(!isProduction),
     __AUTH_TOKEN__: JSON.stringify(authToken),
+    __BUILD_COMMIT__: JSON.stringify(getBuildCommit()),
   },
 };
 
@@ -34,4 +48,11 @@ await Promise.all([
     entryPoints: { background: "src/background/background.ts" },
     format: "esm",
   }),
+  esbuild.build({
+    ...sharedConfig,
+    entryPoints: { popup: "src/popup/popup.ts" },
+    format: "iife",
+  }),
+  copyFile("src/popup/popup.html", "dist/popup.html"),
+  copyFile("src/popup/popup.css", "dist/popup.css"),
 ]);
