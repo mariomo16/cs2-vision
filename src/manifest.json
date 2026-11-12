@@ -9,7 +9,7 @@
     "128": "assets/icons/icon512.png"
   },
   "background": {
-    "service_worker": "dist/background.js",
+    "service_worker": "background.js",
     "type": "module"
   },
   "permissions": ["storage"],
@@ -23,8 +23,8 @@
         "https://steamcommunity.com/id/*",
         "https://steamcommunity.com/profiles/*"
       ],
-      "js": ["dist/content.js"],
-      "css": ["src/content/content.css"],
+      "js": ["content.js"],
+      "css": ["content.css"],
       "run_at": "document_end"
     }
   ],

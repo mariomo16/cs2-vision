@@ -6,6 +6,9 @@ on:
       - main
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,13 +30,31 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Type check
+        run: pnpm typecheck
+
+      - name: Lint
+        run: pnpm lint
+
       - name: Build extension
         run: pnpm build
         env:
           AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
 
-      - name: Upload extension
+      - name: Validate extension package
+        run: pnpm validate
+
+      - name: Package extension
+        run: pnpm package
+
+      - name: Upload extension package
         uses: actions/upload-artifact@v6
         with:
           name: chrome-extension
+          path: release/*.zip
+
+      - name: Upload unpacked extension
+        uses: actions/upload-artifact@v6
+        with:
+          name: chrome-extension-unpacked
           path: dist/

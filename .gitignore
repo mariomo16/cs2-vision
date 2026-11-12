@@ -1,5 +1,6 @@
 dist/
+dist-dev/
 node_modules/
-.env
-.env.*
+release/
+.env.local
 !.env.example
