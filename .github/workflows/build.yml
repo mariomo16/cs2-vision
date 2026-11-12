@@ -12,7 +12,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: prod
+    environment: production
 
     steps:
       - name: Checkout repository
