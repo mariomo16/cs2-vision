@@ -107,19 +107,6 @@
   color: rgb(66, 153, 225);
 }
 
-.csl-github-link {
-  color: #898989;
-  text-decoration: none;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1;
-  transition: color 0.15s ease;
-}
-
-.csl-github-link:hover {
-  color: #ffffff;
-}
-
 .csl-faceit-verified {
   height: 16px;
   width: auto;
