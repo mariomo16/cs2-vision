@@ -141,6 +141,10 @@
   padding: 16px;
 }
 
+.csl-leetify-block > .csl-showcase-content-bg > div:first-child {
+  margin-top: 8px;
+}
+
 .csl-premier-container {
   display: flex;
   justify-content: space-around;
