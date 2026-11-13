@@ -10,6 +10,11 @@ import {
 
 const extensionDir = path.resolve(process.argv[2] ?? DIST_DIR);
 
+/**
+ * Optional suffix that distinguishes the packaged file, e.g. `-develop`
+ */
+const label = (process.argv[3] ?? "").replace(/[^a-zA-Z0-9-]/g, "");
+
 const manifest = JSON.parse(
   await readFile(path.join(extensionDir, "manifest.json"), "utf8"),
 ) as ExtensionManifest;
@@ -32,7 +37,7 @@ await mkdir(RELEASE_DIR, { recursive: true });
 
 const archivePath = path.join(
   RELEASE_DIR,
-  `cs2-vision-${manifest.version}.zip`,
+  `cs2-vision-${manifest.version}${label ? `-${label}` : ""}.zip`,
 );
 
 await writeFile(archivePath, archive);

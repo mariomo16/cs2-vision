@@ -4,13 +4,38 @@ on:
   push:
     branches:
       - main
+      - develop
   workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: build-${{ github.ref_name }}
+  cancel-in-progress: true
+
 jobs:
-  build:
+  build-development:
+    name: Build (development)
+    if: github.ref_name == 'develop'
+    runs-on: ubuntu-latest
+    environment: development
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Build extension
+        uses: ./.github/actions/build-extension
+        with:
+          artifact-name: chrome-extension-develop
+          zip-label: develop
+        env:
+          AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
+
+  build-production:
+    name: Build (production)
+    if: github.ref_name == 'main'
     runs-on: ubuntu-latest
     environment: production
 
@@ -18,43 +43,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v6
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: 24
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Type check
-        run: pnpm typecheck
-
-      - name: Lint
-        run: pnpm lint
-
       - name: Build extension
-        run: pnpm build
+        uses: ./.github/actions/build-extension
+        with:
+          artifact-name: chrome-extension
         env:
           AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
-
-      - name: Validate extension package
-        run: pnpm validate
-
-      - name: Package extension
-        run: pnpm package
-
-      - name: Upload extension package
-        uses: actions/upload-artifact@v6
-        with:
-          name: chrome-extension
-          path: release/*.zip
-
-      - name: Upload unpacked extension
-        uses: actions/upload-artifact@v6
-        with:
-          name: chrome-extension-unpacked
-          path: dist/

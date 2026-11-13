@@ -1,0 +1,63 @@
+name: Build Chrome Extension
+
+inputs:
+  artifact-name:
+    description: Name of the uploaded artifact.
+    required: true
+  zip-label:
+    description: Suffix appended to the packaged ZIP file name.
+    required: false
+    default: ""
+
+runs:
+  using: composite
+
+  steps:
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v6
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v7
+      with:
+        node-version: 24
+        cache: pnpm
+
+    - name: Install dependencies
+      run: pnpm install --frozen-lockfile
+      shell: bash
+
+    - name: Type check
+      run: pnpm typecheck
+      shell: bash
+
+    - name: Lint
+      run: pnpm lint
+      shell: bash
+
+    - name: Build extension
+      run: pnpm build
+      shell: bash
+
+    - name: Validate extension package
+      run: pnpm validate dist
+      shell: bash
+
+    - name: Package extension
+      run: pnpm package dist "${{ inputs.zip-label }}"
+      shell: bash
+
+    - name: Upload extension package
+      uses: actions/upload-artifact@v6
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: release/*.zip
+        if-no-files-found: error
+        retention-days: 7
+
+    - name: Upload unpacked extension
+      uses: actions/upload-artifact@v6
+      with:
+        name: ${{ inputs.artifact-name }}-unpacked
+        path: dist/
+        if-no-files-found: error
+        retention-days: 7
