@@ -429,6 +429,10 @@
   right: 100%;
 }
 
+.csl-grid-stat--tall {
+  justify-content: flex-end;
+}
+
 .csl-premier-row {
   display: flex;
   justify-content: center;

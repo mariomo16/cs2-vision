@@ -95,13 +95,21 @@ function createRatingDisplay(data: {
   return statBlock;
 }
 
-function createStatValue(value: string, label: string): HTMLDivElement {
+function createStatValue(
+  value: string,
+  label: string,
+  options?: { tall?: boolean },
+): HTMLDivElement {
   const block = document.createElement("div");
   block.className = "csl-grid-stat";
 
   const valEl = document.createElement("div");
   valEl.className = "csl-grid-stat-value";
   valEl.textContent = value;
+
+  if (options?.tall) {
+    block.classList.add("csl-grid-stat--tall");
+  }
 
   const lblEl = document.createElement("div");
   lblEl.className = "csl-stat-label";
@@ -184,12 +192,18 @@ export function populateStatsBlock(
   premierRow.style.gridColumn = "1 / 3";
   grid.append(premierRow);
 
-  const kdEl = createStatValue(csstats.kdRatio?.toFixed(2) ?? "-", "K/D");
+  const kdEl = createStatValue(csstats.kdRatio?.toFixed(2) ?? "-", "K/D", {
+    tall: true,
+  });
   kdEl.style.gridColumn = "3";
   kdEl.style.gridRow = "1";
   grid.append(kdEl);
 
-  const hltvEl = createStatValue(csstats.hltvRating?.toFixed(2) ?? "-", "HLTV");
+  const hltvEl = createStatValue(
+    csstats.hltvRating?.toFixed(2) ?? "-",
+    "HLTV",
+    { tall: true },
+  );
   hltvEl.style.gridColumn = "4";
   hltvEl.style.gridRow = "1";
   grid.append(hltvEl);
