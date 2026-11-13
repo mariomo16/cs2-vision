@@ -59,8 +59,6 @@ if (!manifest.name || !manifest.version) {
   fail(`manifest version "${manifest.version}" is not a valid Chrome version.`);
 }
 
-// The store rejects an upload whose version does not increase, so a mismatch
-// between the two version sources must stop the release pipeline.
 const packageJson = JSON.parse(
   await readFile(path.join(ROOT_DIR, "package.json"), "utf8"),
 ) as { version?: string };
@@ -143,9 +141,6 @@ for (const resource of manifest.web_accessible_resources ?? []) {
   }
 }
 
-// Assets are also loaded at runtime through `chrome.runtime.getURL()`, which
-// the manifest cannot express. Those paths are extracted from the built bundles
-// so a missing or renamed asset is caught before publishing.
 const getUrlPattern = /chrome\.runtime\.getURL\(\s*["'`]([^"'`]+)["'`]\s*\)/g;
 
 for (const bundle of ["content.js", "background.js"]) {
@@ -158,8 +153,6 @@ for (const bundle of ["content.js", "background.js"]) {
 
     if (!assetPath) continue;
 
-    // Interpolated paths (e.g. `assets/faceit/${level}.svg`) are resolved at
-    // runtime and cannot be checked statically.
     if (assetPath.includes("${")) continue;
 
     if (!presentFiles.has(assetPath)) {
@@ -181,8 +174,6 @@ for (const file of presentFiles) {
   }
 }
 
-// A leftover entry at the extension root is the usual symptom of a build
-// directory that was not cleaned before packaging.
 for (const entry of await listTopLevel(extensionDir)) {
   const isReferenced =
     referencedFiles.has(entry) ||
