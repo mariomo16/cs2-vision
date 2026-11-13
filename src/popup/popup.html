@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>CS2 Vision Popup</title>
+    <style>
+      :root {
+        --csv-font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+        --csv-background: #202020;
+        --csv-foreground: #cccccc;
+        --csv-descriptionForeground: #9d9d9d;
+      }
+
+      body {
+        width: 310px;
+        margin: 0;
+        background-color: var(--csv-background);
+        font-family: var(--csv-font-family);
+        color: var(--csv-foreground);
+        padding: 14px 16px;
+        box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .popup-body {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+      }
+
+      .csv-logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 6px;
+        object-fit: contain;
+        display: block;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+
+      .version-details {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .app-title {
+        font-size: 13px;
+        font-weight: 600;
+        line-height: 18px;
+        color: var(--csv-foreground);
+        margin: 0;
+      }
+
+      .meta-line {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 16px;
+        color: var(--csv-descriptionForeground);
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="popup-body">
+      <img src="assets/icons/icon128.png" alt="CS2 Vision" class="csv-logo" />
+
+      <div class="version-details">
+        <p class="app-title">CS2 Vision</p>
+        <p class="meta-line">Current Version: 1.0.0 (753c843)</p>
+        <p class="meta-line">Latest Version: 1.0.0 (753c843)</p>
+        <p class="meta-line">Released Nov 5, 2026</p>
+      </div>
+    </div>
+  </body>
+</html>

@@ -18,6 +18,7 @@ export const RELEASE_DIR = path.join(ROOT_DIR, "release");
 
 export const MANIFEST_SOURCE = path.join(SRC_DIR, "manifest.json");
 export const CONTENT_CSS_SOURCE = path.join(SRC_DIR, "content", "content.css");
+export const POPUP_HTML_SOURCE = path.join(SRC_DIR, "popup", "popup.html");
 
 export interface ManifestContentScript {
   matches: string[];

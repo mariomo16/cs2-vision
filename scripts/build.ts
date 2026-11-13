@@ -8,6 +8,7 @@ import {
   DEV_DIST_DIR,
   DIST_DIR,
   MANIFEST_SOURCE,
+  POPUP_HTML_SOURCE,
 } from "./lib/extension.ts";
 
 const isProduction = process.env.NODE_ENV === "production";
@@ -66,6 +67,7 @@ await Promise.all([
 await Promise.all([
   cp(MANIFEST_SOURCE, path.join(outDir, "manifest.json")),
   cp(CONTENT_CSS_SOURCE, path.join(outDir, "content.css")),
+  cp(POPUP_HTML_SOURCE, path.join(outDir, "popup.html")),
   cp(ASSETS_DIR, path.join(outDir, "assets"), { recursive: true }),
 ]);
 
