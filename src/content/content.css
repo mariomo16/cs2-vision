@@ -73,6 +73,7 @@
 
 .csl-showcase-container {
   margin-bottom: 12px;
+  --csl-side-column-width: 100px;
 }
 
 .csl-showcase-header {
@@ -437,8 +438,15 @@
 
 .csl-faceit-body {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr var(--csl-side-column-width);
   gap: 24px;
+}
+
+.csl-leetify-body {
+  display: grid;
+  grid-template-columns: 1fr var(--csl-side-column-width);
+  gap: 24px;
+  align-items: start;
 }
 
 .csl-faceit-block,
@@ -455,7 +463,6 @@
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  padding-right: 16px;
   align-self: start;
 }
 

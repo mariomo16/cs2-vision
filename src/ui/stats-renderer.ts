@@ -472,12 +472,9 @@ export function appendLeetifyBlock(
 
   leetifyLogoLink.append(leetifyLogo);
 
-  grid.style.flex = "1";
-
   const body = document.createElement("div");
-  body.style.display = "flex";
   body.style.alignItems = "center";
-  body.style.gap = "12px";
+  body.className = "csl-leetify-body";
   body.append(grid, leetifyLogoLink);
   block.append(body);
 }
