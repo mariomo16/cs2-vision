@@ -1,10 +1,16 @@
 {
   "name": "cs2-vision",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "View CSStats, FACEIT and Leetify data, plus Steam account information.",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development node build.js",
-    "build": "cross-env NODE_ENV=production node build.js"
+    "dev": "cross-env NODE_ENV=development node scripts/build.ts",
+    "build": "cross-env NODE_ENV=production node scripts/build.ts",
+    "validate": "node scripts/validate.ts",
+    "package": "node scripts/package.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.scripts.json",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "check": "pnpm typecheck && pnpm lint"
   },
   "keywords": [
     "chrome-extension",
@@ -13,13 +19,15 @@
   ],
   "author": "Mario Ortega",
   "license": "MIT",
-  "packageManager": "pnpm@12.16.1",
+  "packageManager": "pnpm@12.18.0",
   "devDependencies": {
     "@biomejs/biome": "2.6.7",
     "@types/chrome": "^0.3.7",
+    "@types/node": "^24.19.2",
     "cross-env": "^10.1.0",
     "dotenv": "^18.0.10",
     "esbuild": "^0.28.2",
+    "fflate": "^0.8.3",
     "typescript": "^7.0.2"
   },
   "type": "module"

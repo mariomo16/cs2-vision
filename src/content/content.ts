@@ -20,7 +20,8 @@ function extractSteamId64(): string | null {
     const match = script.textContent?.match(
       /g_rgProfileData\s*=\s*\{[^}]*"steamid"\s*:\s*"(\d{17})"/,
     );
-    if (match) return match[1];
+    const steamId = match?.[1];
+    if (steamId) return steamId;
   }
   return null;
 }

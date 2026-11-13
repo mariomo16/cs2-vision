@@ -2,14 +2,14 @@
   "manifest_version": 3,
   "name": "CS2 Vision",
   "description": "View CSStats, FACEIT and Leetify data, plus Steam account information.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "icons": {
-    "16": "assets/icons/icon512.png",
-    "48": "assets/icons/icon512.png",
-    "128": "assets/icons/icon512.png"
+    "16": "assets/icons/icon16.png",
+    "48": "assets/icons/icon48.png",
+    "128": "assets/icons/icon128.png"
   },
   "background": {
-    "service_worker": "dist/background.js",
+    "service_worker": "background.js",
     "type": "module"
   },
   "permissions": ["storage"],
@@ -23,8 +23,8 @@
         "https://steamcommunity.com/id/*",
         "https://steamcommunity.com/profiles/*"
       ],
-      "js": ["dist/content.js"],
-      "css": ["src/content/content.css"],
+      "js": ["content.js"],
+      "css": ["content.css"],
       "run_at": "document_end"
     }
   ],
