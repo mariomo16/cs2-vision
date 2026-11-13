@@ -28,7 +28,7 @@ jobs:
       - name: Build extension
         uses: ./.github/actions/build-extension
         with:
-          artifact-name: chrome-extension-develop
+          # artifact-name: chrome-extension-develop
           zip-label: develop
         env:
           AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
@@ -45,7 +45,6 @@ jobs:
 
       - name: Build extension
         uses: ./.github/actions/build-extension
-        with:
-          artifact-name: chrome-extension
+        # artifact-name: chrome-extension
         env:
           AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}

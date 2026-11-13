@@ -1,9 +1,12 @@
 name: Build Chrome Extension
 
+description: >-
+  Type-checks, lints, builds, validates and packages the Chrome extension.
+
 inputs:
-  artifact-name:
-    description: Name of the uploaded artifact.
-    required: true
+  # artifact-name:
+  #   description: Name of the uploaded artifact.
+  #   required: true
   zip-label:
     description: Suffix appended to the packaged ZIP file name.
     required: false
@@ -46,18 +49,18 @@ runs:
       run: pnpm package dist "${{ inputs.zip-label }}"
       shell: bash
 
-    - name: Upload extension package
-      uses: actions/upload-artifact@v6
-      with:
-        name: ${{ inputs.artifact-name }}
-        path: release/*.zip
-        if-no-files-found: error
-        retention-days: 7
+    # - name: Upload extension package
+    #   uses: actions/upload-artifact@v6
+    #   with:
+    #     name: ${{ inputs.artifact-name }}
+    #     path: release/*.zip
+    #     if-no-files-found: error
+    #     retention-days: 7
 
-    - name: Upload unpacked extension
-      uses: actions/upload-artifact@v6
-      with:
-        name: ${{ inputs.artifact-name }}-unpacked
-        path: dist/
-        if-no-files-found: error
-        retention-days: 7
+    # - name: Upload unpacked extension
+    #   uses: actions/upload-artifact@v6
+    #   with:
+    #     name: ${{ inputs.artifact-name }}-unpacked
+    #     path: dist/
+    #     if-no-files-found: error
+    #     retention-days: 7
