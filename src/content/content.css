@@ -141,7 +141,10 @@
   padding: 16px;
 }
 
-.csl-leetify-block > .csl-showcase-content-bg > div:first-child {
+.csl-leetify-block
+  > .csl-showcase-content-bg
+  > div
+  > .csl-container-stats-grid {
   margin-top: 8px;
 }
 
