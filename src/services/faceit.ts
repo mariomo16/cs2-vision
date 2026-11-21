@@ -33,7 +33,7 @@ export async function fetchFaceitStats(
     const verified: boolean = !!player?.verified;
     const cs2 = player?.games?.cs2;
     const level: number | null = cs2?.skill_level ?? null;
-    const elo: number | null = cs2?.faceit_elo ?? null;
+    const elo: number | null = cs2 ? (cs2.faceit_elo ?? 0) : null;
     const region: string | null = cs2?.region ?? null;
 
     if (!playerId && !elo) return null;
