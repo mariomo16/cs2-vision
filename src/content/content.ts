@@ -55,9 +55,16 @@ async function init() {
   };
 
   const applyBlockVisibility = (settings: BlockSettings): void => {
-    for (const key of BLOCK_KEYS) {
-      blocks[key].style.display = settings[key] ? "" : "none";
-    }
+    BLOCK_KEYS.forEach((key, index) => {
+      const block = blocks[key];
+      const hasActiveAfter = BLOCK_KEYS.slice(index + 1).some(
+        (nextKey) => settings[nextKey],
+      );
+
+      block.style.display = settings[key] ? "" : "none";
+      block.style.marginBottom = settings[key] && hasActiveAfter ? "9px" : "0";
+    });
+
     container.style.display = BLOCK_KEYS.some((key) => settings[key])
       ? ""
       : "none";
