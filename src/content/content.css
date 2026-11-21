@@ -1,18 +1,18 @@
 @font-face {
+  font-family: "Inter";
+  src: url("chrome-extension://__MSG_@@extension_id__/assets/fonts/InterVariable.woff2")
+    format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
   font-display: swap;
   font-family: "Cairo";
   font-style: normal;
   font-weight: 800;
   src: url("chrome-extension://__MSG_@@extension_id__/assets/fonts/cairo-v31-latin-800.woff2")
     format("woff2");
-}
-
-@font-face {
-  font-family: "Inter";
-  src: url("chrome-extension://__MSG_@@extension_id__/assets/fonts/InterVariable.woff2")
-    format("woff2");
-  font-weight: 100 900;
-  font-display: swap;
 }
 
 .csstats-logo-link {
@@ -180,7 +180,6 @@
   line-height: 1.2;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: #96a8c1;
 }
 
 .csl-divider {
