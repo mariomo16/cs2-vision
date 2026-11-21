@@ -155,7 +155,7 @@ export function insertSteamId(steamId64: string): void {
   copyBtn.title = "Copy SteamID64";
 
   const copyImg = document.createElement("img");
-  copyImg.src = chrome.runtime.getURL("assets/ui/clipboard-document.svg");
+  copyImg.src = chrome.runtime.getURL("assets/ui/square-2-stack.svg");
   copyImg.alt = "Copy";
   copyImg.className = "csl-steamid-copy-icon";
   copyBtn.append(copyImg);
@@ -168,7 +168,7 @@ export function insertSteamId(steamId64: string): void {
     copyBtn.classList.add("csl-steamid-copy--done");
     setTimeout(() => {
       copyBtn.disabled = false;
-      copyImg.src = chrome.runtime.getURL("assets/ui/clipboard-document.svg");
+      copyImg.src = chrome.runtime.getURL("assets/ui/square-2-stack.svg");
       copyImg.alt = "Copy";
       copyBtn.classList.remove("csl-steamid-copy--done");
     }, 1500);
