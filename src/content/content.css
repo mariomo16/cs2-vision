@@ -42,18 +42,8 @@
 }
 
 .csl-fsgg-logo {
-  font-family: "Poppins", sans-serif;
-  font-size: 1rem;
   display: inline-flex;
   text-decoration: none;
-}
-
-.csl-fsgg-logo .logo-f {
-  color: rgb(66, 153, 225);
-}
-
-.csl-fsgg-logo .logo-sgg {
-  color: #ffffff;
 }
 
 .csl-faceit-logo {
