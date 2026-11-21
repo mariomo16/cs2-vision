@@ -1,27 +1,17 @@
 @font-face {
+  font-family: "Inter";
+  src: url("chrome-extension://__MSG_@@extension_id__/assets/fonts/InterVariable.woff2")
+    format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
   font-display: swap;
   font-family: "Cairo";
   font-style: normal;
   font-weight: 800;
   src: url("chrome-extension://__MSG_@@extension_id__/assets/fonts/cairo-v31-latin-800.woff2")
-    format("woff2");
-}
-
-@font-face {
-  font-display: swap;
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 800;
-  src: url("chrome-extension://__MSG_@@extension_id__/assets/fonts/poppins-v24-latin-800.woff2")
-    format("woff2");
-}
-
-@font-face {
-  font-display: swap;
-  font-family: "Roboto Condensed";
-  font-style: normal;
-  font-weight: 400;
-  src: url("chrome-extension://__MSG_@@extension_id__/assets/fonts/roboto-condensed-v31-latin-regular.woff2")
     format("woff2");
 }
 
@@ -34,18 +24,8 @@
 }
 
 .csl-fsgg-logo {
-  font-family: "Poppins", sans-serif;
-  font-size: 1rem;
   display: inline-flex;
   text-decoration: none;
-}
-
-.csl-fsgg-logo .logo-f {
-  color: rgb(66, 153, 225);
-}
-
-.csl-fsgg-logo .logo-sgg {
-  color: #ffffff;
 }
 
 .csl-faceit-logo {
@@ -123,17 +103,16 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  background: rgba(18, 18, 18, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 4px;
   padding: 16px;
 }
 
-.csl-leetify-block
-  > .csl-showcase-content-bg
-  > div
-  > .csl-container-stats-grid {
-  margin-top: 8px;
+.csl-container-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 12px;
 }
 
 .csl-premier-container {
@@ -195,10 +174,12 @@
 }
 
 .csl-stat-label {
-  font-size: 10px;
-  color: #96a8c1;
+  font-family: "Inter", monospace;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.2;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.06em;
 }
 
 .csl-divider {
@@ -335,7 +316,7 @@
   align-items: center;
   vertical-align: middle;
   opacity: 0.6;
-  transition: opacity 0.1s ease;
+  transition: opacity 0.15s ease;
   user-select: none;
 }
 
@@ -348,8 +329,8 @@
 }
 
 .csl-steamid-copy-icon {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   filter: brightness(0) invert(0.6);
 }
 
@@ -385,11 +366,8 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
 
-.csl-container-stats-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-bottom: 12px;
+.csl-leetify-block > div > .csl-container-stats-grid {
+  margin-top: 8px;
 }
 
 .csl-grid-stat {
@@ -400,10 +378,12 @@
 }
 
 .csl-grid-stat-value {
+  font-family: "Inter", monospace;
+  font-variant-numeric: tabular-nums;
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 700;
   color: #eceff1;
-  line-height: 1.2;
+  line-height: 1.1;
 }
 
 .csl-grid-stat-value[data-sign] {
@@ -431,6 +411,7 @@
   display: grid;
   grid-template-columns: 1fr var(--csl-side-column-width);
   gap: 24px;
+  align-items: start;
 }
 
 .csl-leetify-body {
@@ -440,13 +421,9 @@
   align-items: start;
 }
 
-.csl-faceit-block,
-.csl-leetify-block {
-  padding-top: 0 !important;
-}
-
-.csl-csstats-block {
-  padding-top: 11px !important;
+.csl-showcase-block {
+  display: flex;
+  flex-direction: column;
 }
 
 .csl-last5-container {
@@ -477,6 +454,7 @@
   gap: 4px;
   color: inherit;
   text-decoration: none;
+  font-family: "Inter", monospace;
 }
 
 .csl-faceit-header-name {
@@ -491,6 +469,7 @@
   color: inherit;
   text-decoration: none;
   transition: filter 0.15s;
+  font-family: "Inter", monospace;
 }
 
 .csl-csstats-player-link:hover {

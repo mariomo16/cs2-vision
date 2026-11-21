@@ -349,10 +349,13 @@ export function appendFaceitBlock(
     badgeBlock.append(ratingWrapper);
   }
 
-  if (faceit.elo != null) {
+  const eloLabel =
+    faceit.level === 0 ? "UNRANKED" : `${faceit.elo?.toLocaleString()} ELO`;
+
+  if (eloLabel != null) {
     const lblEl = document.createElement("div");
     lblEl.className = "csl-stat-label";
-    lblEl.textContent = `${faceit.elo.toLocaleString()} ELO`;
+    lblEl.textContent = eloLabel;
     badgeBlock.append(lblEl);
   }
 

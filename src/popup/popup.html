@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>CS2 Vision Popup</title>
+    <style>
+      :root {
+        --csv-font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+        --csv-background: hsl(210, 22%, 11%);
+        --csv-foreground: #cccccc;
+        --csv-descriptionForeground: #9d9d9d;
+      }
+
+      body {
+        width: 310px;
+        margin: 0;
+        background-color: var(--csv-background);
+        font-family: var(--csv-font-family);
+        color: var(--csv-foreground);
+        padding: 14px 16px;
+        box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .popup-body {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+      }
+
+      .csv-logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 6px;
+        object-fit: contain;
+        display: block;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+
+      .version-details {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .app-title {
+        font-size: 13px;
+        font-weight: 600;
+        line-height: 18px;
+        color: var(--csv-foreground);
+        margin: 0;
+      }
+
+      .meta-line {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 16px;
+        color: var(--csv-descriptionForeground);
+        margin: 0;
+      }
+
+      .block-toggles {
+        display: flex;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .csv-toggle {
+        flex: 1;
+        box-sizing: border-box;
+        font-weight: 600;
+        height: 30px;
+        padding: 0 10px;
+        font-family: "Motiva Sans", Arial, Helvetica, sans-serif;
+        font-size: 15px;
+        line-height: 30px;
+        color: #ffffff;
+        background: linear-gradient(to right, #1a9fff 0%, #2870bd 100%);
+        border: 0;
+        border-radius: 2px;
+        cursor: pointer;
+        text-align: center;
+        transition:
+          color 0.15s ease,
+          filter 0.15s ease,
+          transform 0.05s ease;
+      }
+
+      .csv-toggle[aria-pressed="true"]:hover {
+        color: #ffffff;
+        background: linear-gradient(to right, #56abff 0%, #1a9fff 100%);
+      }
+
+      .csv-toggle[aria-pressed="false"] {
+        color: rgba(255, 255, 255, 0.7);
+        background: linear-gradient(
+          to right,
+          rgba(26, 159, 255, 0.35) 0%,
+          rgba(40, 112, 189, 0.35) 100%
+        );
+      }
+
+      .csv-toggle[aria-pressed="true"]:hover {
+        color: #ffffff;
+        background: linear-gradient(to right, #56abff 0%, #1a9fff 100%);
+      }
+
+      .csv-toggle[aria-pressed="false"]:hover {
+        color: rgba(255, 255, 255, 0.9);
+        background: linear-gradient(
+          to right,
+          rgba(26, 159, 255, 0.55) 0%,
+          rgba(40, 112, 189, 0.55) 100%
+        );
+      }
+
+      .csv-toggle:active {
+        transform: scale(0.97);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="popup-body">
+      <img src="assets/icons/icon128.png" alt="CS2 Vision" class="csv-logo" />
+
+      <div class="version-details">
+        <p class="app-title">CS2 Vision</p>
+        <p class="meta-line" id="current-version">Current Version: …</p>
+        <p class="meta-line" id="release-date">Released …</p>
+      </div>
+    </div>
+
+    <div class="block-toggles">
+      <button
+        type="button"
+        class="csv-toggle"
+        data-block="csstats"
+        aria-pressed="true"
+      >
+        CS Stats
+      </button>
+      <button
+        type="button"
+        class="csv-toggle"
+        data-block="faceit"
+        aria-pressed="true"
+      >
+        FACEIT
+      </button>
+      <button
+        type="button"
+        class="csv-toggle"
+        data-block="leetify"
+        aria-pressed="true"
+      >
+        Leetify
+      </button>
+    </div>
+
+    <script src="popup.js" defer></script>
+  </body>
+</html>

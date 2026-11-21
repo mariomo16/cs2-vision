@@ -39,6 +39,10 @@ pnpm build   # production build  -> dist/
 
 Each build writes a self-contained extension (`manifest.json`, `content.js`, `background.js`, `content.css`, `assets/`) to its output directory. Load that directory as an unpacked extension in `chrome://extensions/` with developer mode enabled.
 
+## Commit Messages
+
+Some commit messages may not accurately describe all the changes included in a commit, as I occasionally use VS Code's built-in "Generate Commit Message" feature to generate them automatically.
+
 ## License
 
 MIT

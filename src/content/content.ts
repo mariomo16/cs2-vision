@@ -2,6 +2,14 @@ import { fetchPlayerStats, type StatsResponse } from "../services/csstats";
 import { fetchFaceitStats } from "../services/faceit";
 import { fetchLeetifyStats } from "../services/leetify";
 import {
+  BLOCK_KEYS,
+  BLOCK_SETTINGS_KEY,
+  type BlockKey,
+  type BlockSettings,
+  normalizeBlockSettings,
+  readBlockSettings,
+} from "../services/settings";
+import {
   buildShowcaseShell,
   createLoadingSpinner,
   insertBanText,
@@ -39,36 +47,81 @@ async function init() {
 
   const { container, statsPanel, faceitPanel, leetifyPanel } =
     buildShowcaseShell();
-  statsPanel.append(createLoadingSpinner());
-  faceitPanel.append(createLoadingSpinner());
-  leetifyPanel.append(createLoadingSpinner());
-  insertElement(container);
+
+  const blocks: Record<BlockKey, HTMLElement> = {
+    csstats: statsPanel,
+    faceit: faceitPanel,
+    leetify: leetifyPanel,
+  };
+
+  const applyBlockVisibility = (settings: BlockSettings): void => {
+    BLOCK_KEYS.forEach((key, index) => {
+      const block = blocks[key];
+      const hasActiveAfter = BLOCK_KEYS.slice(index + 1).some(
+        (nextKey) => settings[nextKey],
+      );
+
+      block.style.display = settings[key] ? "" : "none";
+      block.style.marginBottom = settings[key] && hasActiveAfter ? "9px" : "0";
+    });
+
+    container.style.display = BLOCK_KEYS.some((key) => settings[key])
+      ? ""
+      : "none";
+  };
+
+  let settings = await readBlockSettings();
+  let csstatsLoaded = false;
 
   const personaName =
     document.querySelector(".actual_persona_name")?.textContent?.trim() ??
     "Player";
 
-  const result: StatsResponse = await fetchPlayerStats(steamId64);
+  const loadCsstats = async (): Promise<void> => {
+    if (csstatsLoaded) return;
+    csstatsLoaded = true;
 
-  if (result.banText) {
-    insertBanText(result.banText);
-  }
+    const result: StatsResponse = await fetchPlayerStats(steamId64);
 
-  statsPanel.innerHTML = "";
+    if (result.banText) {
+      insertBanText(result.banText);
+    }
 
-  if (result.ok) {
-    populateStatsBlock(statsPanel, result.data, personaName, steamId64);
-  } else {
-    const msg = document.createElement("p");
-    msg.className = "csl-stats-unavailable";
-    msg.textContent =
-      result.error === "private"
-        ? "This profile has been set to private"
-        : result.error === "not_found"
-          ? "No matches have been added for this player"
-          : "Couldn't load stats from csstats.gg right now. Try refreshing the page.";
-    statsPanel.append(msg);
-  }
+    statsPanel.innerHTML = "";
+
+    if (result.ok) {
+      populateStatsBlock(statsPanel, result.data, personaName, steamId64);
+    } else {
+      const msg = document.createElement("p");
+      msg.className = "csl-stats-unavailable";
+      msg.textContent =
+        result.error === "private"
+          ? "This profile has been set to private"
+          : result.error === "not_found"
+            ? "No matches have been added for this player"
+            : "Couldn't load stats from csstats.gg right now. Try refreshing the page.";
+      statsPanel.append(msg);
+    }
+  };
+
+  applyBlockVisibility(settings);
+
+  chrome.storage.onChanged.addListener((changes, areaName) => {
+    if (areaName !== "local" || !changes[BLOCK_SETTINGS_KEY]) return;
+
+    const next = normalizeBlockSettings(changes[BLOCK_SETTINGS_KEY].newValue);
+    applyBlockVisibility(next);
+
+    if (!settings.csstats && next.csstats) void loadCsstats();
+    settings = next;
+  });
+
+  statsPanel.append(createLoadingSpinner());
+  faceitPanel.append(createLoadingSpinner());
+  leetifyPanel.append(createLoadingSpinner());
+  insertElement(container);
+
+  if (settings.csstats) await loadCsstats();
 
   await Promise.all([
     fetchFaceitStats(steamId64).then((faceit) => {
