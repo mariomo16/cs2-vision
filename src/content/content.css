@@ -129,10 +129,7 @@
   padding: 16px;
 }
 
-.csl-leetify-block
-  > .csl-showcase-content-bg
-  > div
-  > .csl-container-stats-grid {
+.csl-leetify-block > div > .csl-container-stats-grid {
   margin-top: 8px;
 }
 
@@ -440,13 +437,9 @@
   align-items: start;
 }
 
-.csl-faceit-block,
-.csl-leetify-block {
-  padding-top: 0 !important;
-}
-
-.csl-csstats-block {
-  padding-top: 11px !important;
+.csl-showcase-block {
+  display: flex;
+  flex-direction: column;
 }
 
 .csl-last5-container {

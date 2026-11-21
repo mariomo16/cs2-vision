@@ -45,20 +45,13 @@ async function init() {
 
   insertSteamId(steamId64);
 
-  const {
-    container,
-    csstatsBlock,
-    faceitBlock,
-    leetifyBlock,
-    statsPanel,
-    faceitPanel,
-    leetifyPanel,
-  } = buildShowcaseShell();
+  const { container, statsPanel, faceitPanel, leetifyPanel } =
+    buildShowcaseShell();
 
   const blocks: Record<BlockKey, HTMLElement> = {
-    csstats: csstatsBlock,
-    faceit: faceitBlock,
-    leetify: leetifyBlock,
+    csstats: statsPanel,
+    faceit: faceitPanel,
+    leetify: leetifyPanel,
   };
 
   const applyBlockVisibility = (settings: BlockSettings): void => {
