@@ -84,18 +84,17 @@
         text-align: center;
       }
 
-      .csv-toggle:hover:not([aria-pressed="false"]) {
-        background: linear-gradient(to right, #56abff 0%, #1a9fff 100%);
-      }
-
       .csv-toggle[aria-pressed="false"] {
         color: rgba(255, 255, 255, 0.7);
-        background-color: rgba(82, 91, 59, 0.35);
+        background: linear-gradient(
+          to right,
+          rgba(26, 159, 255, 0.35) 0%,
+          rgba(40, 112, 189, 0.35) 100%
+        );
       }
 
-      .csv-toggle:focus-visible {
-        outline: 2px solid rgba(255, 255, 255, 0.6);
-        outline-offset: 1px;
+      .csv-toggle:hover {
+        background: linear-gradient(to right, #56abff 0%, #1a9fff 100%);
       }
     </style>
   </head>
