@@ -82,6 +82,15 @@
         border-radius: 2px;
         cursor: pointer;
         text-align: center;
+        transition:
+          color 0.15s ease,
+          filter 0.15s ease,
+          transform 0.05s ease;
+      }
+
+      .csv-toggle[aria-pressed="true"]:hover {
+        color: #ffffff;
+        background: linear-gradient(to right, #56abff 0%, #1a9fff 100%);
       }
 
       .csv-toggle[aria-pressed="false"] {
@@ -93,9 +102,22 @@
         );
       }
 
-      .csv-toggle:hover {
+      .csv-toggle[aria-pressed="true"]:hover {
         color: #ffffff;
         background: linear-gradient(to right, #56abff 0%, #1a9fff 100%);
+      }
+
+      .csv-toggle[aria-pressed="false"]:hover {
+        color: rgba(255, 255, 255, 0.9);
+        background: linear-gradient(
+          to right,
+          rgba(26, 159, 255, 0.55) 0%,
+          rgba(40, 112, 189, 0.55) 100%
+        );
+      }
+
+      .csv-toggle:active {
+        transform: scale(0.97);
       }
     </style>
   </head>
