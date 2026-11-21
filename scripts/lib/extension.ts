@@ -40,6 +40,10 @@ export interface ExtensionManifest {
   version: string;
   description?: string;
   icons?: Record<string, string>;
+  action?: {
+    default_popup?: string;
+    default_icon?: Record<string, string>;
+  };
   background?: {
     service_worker?: string;
     type?: string;

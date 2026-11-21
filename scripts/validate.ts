@@ -105,6 +105,12 @@ for (const script of manifest.content_scripts ?? []) {
   }
 }
 
+const defaultPopup = manifest.action?.default_popup;
+
+if (defaultPopup) {
+  requireFile(defaultPopup, "action.default_popup");
+}
+
 // Files the manifest points at, resolved from the resource patterns.
 const referencedFiles = new Set<string>(["manifest.json"]);
 
@@ -122,6 +128,26 @@ for (const script of manifest.content_scripts ?? []) {
   }
   for (const cssFile of script.css ?? []) {
     referencedFiles.add(cssFile);
+  }
+}
+
+// The popup is an HTML document, so its own local scripts are not visible to
+// the manifest and have to be discovered from the markup.
+if (defaultPopup && presentFiles.has(defaultPopup)) {
+  referencedFiles.add(defaultPopup);
+
+  const popupSource = await readFile(
+    path.join(extensionDir, defaultPopup),
+    "utf8",
+  );
+  const scriptSrcPattern = /<script\b[^>]*\bsrc=["']([^"']+)["']/g;
+
+  for (const match of popupSource.matchAll(scriptSrcPattern)) {
+    const scriptPath = match[1];
+    if (!scriptPath || /^(?:[a-z]+:)?\/\//i.test(scriptPath)) continue;
+
+    requireFile(scriptPath, `${defaultPopup} <script src>`);
+    referencedFiles.add(scriptPath);
   }
 }
 

@@ -1,3 +1,4 @@
+import { execFileSync } from "node:child_process";
 import { cp, mkdir, rm } from "node:fs/promises";
 import path from "node:path";
 import { config as loadEnv } from "dotenv";
@@ -9,7 +10,23 @@ import {
   DIST_DIR,
   MANIFEST_SOURCE,
   POPUP_HTML_SOURCE,
+  ROOT_DIR,
 } from "./lib/extension.ts";
+
+function getBuildCommit(): string {
+  const githubSha = process.env.GITHUB_SHA;
+  if (githubSha) return githubSha.slice(0, 7);
+
+  try {
+    return execFileSync("git", ["rev-parse", "--short=7", "HEAD"], {
+      cwd: ROOT_DIR,
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+    }).trim();
+  } catch {
+    return "";
+  }
+}
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -58,6 +75,16 @@ await Promise.all([
     define: {
       __DEV__: JSON.stringify(!isProduction),
       __AUTH_TOKEN__: JSON.stringify(authToken),
+    },
+  }),
+  build({
+    ...shared,
+    entryPoints: { popup: "src/popup/popup.ts" },
+    format: "iife",
+    outfile: path.join(outDir, "popup.js"),
+    define: {
+      __DEV__: JSON.stringify(!isProduction),
+      __BUILD_COMMIT__: JSON.stringify(getBuildCommit()),
     },
   }),
 ]);
