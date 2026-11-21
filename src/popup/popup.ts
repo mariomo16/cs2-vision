@@ -8,13 +8,19 @@ function getBuildCommit(): string | null {
   return __BUILD_COMMIT__.trim() || null;
 }
 
+function getBuildDate(): string | null {
+  if (typeof __BUILD_DATE__ !== "string") return null;
+
+  return __BUILD_DATE__.trim() || null;
+}
+
 function formatVersion(version: string, commitSha: string | null): string {
   if (!commitSha) return version;
 
   return `${version} (${commitSha.slice(0, COMMIT_DISPLAY_LENGTH)})`;
 }
 
-function formatReleaseDate(isoDate: string): string {
+function formatDate(isoDate: string): string {
   const date = new Date(isoDate);
   if (Number.isNaN(date.getTime())) return isoDate;
 
@@ -39,6 +45,17 @@ function getUpdateErrorMessage(error: unknown): string {
   return "Couldn't check for updates";
 }
 
+function renderReleaseDate(): void {
+  const buildDate = getBuildDate();
+
+  setText(
+    "release-date",
+    buildDate
+      ? `Released ${formatDate(buildDate)}`
+      : "Released date unavailable",
+  );
+}
+
 async function init(): Promise<void> {
   const version = chrome.runtime.getManifest().version;
 
@@ -46,6 +63,7 @@ async function init(): Promise<void> {
     "current-version",
     `Current Version: ${formatVersion(version, getBuildCommit())}`,
   );
+  renderReleaseDate();
 
   try {
     const release = await fetchLatestRelease(version);
@@ -54,13 +72,11 @@ async function init(): Promise<void> {
       "latest-version",
       `Latest Version: ${formatVersion(release.version, release.commitSha)}`,
     );
-    setText(
-      "release-date",
-      `Released ${formatReleaseDate(release.releaseDate)}`,
-    );
   } catch (error) {
-    setText("latest-version", "Latest Version: Unavailable");
-    setText("release-date", getUpdateErrorMessage(error));
+    setText(
+      "latest-version",
+      `Latest Version: ${getUpdateErrorMessage(error)}`,
+    );
   }
 }
 

@@ -7,7 +7,6 @@ const CACHE_TTL_MS = 30 * 60 * 1000;
 
 export interface ReleaseInfo {
   version: string;
-  releaseDate: string;
   commitSha: string | null;
 }
 
@@ -23,7 +22,6 @@ export class GitHubRequestError extends Error {
 
 interface GitHubRelease {
   tag_name: string;
-  published_at: string;
 }
 
 interface GitHubCommit {
@@ -42,7 +40,6 @@ function isCachedRelease(value: unknown): value is CachedRelease {
 
   return (
     typeof candidate.version === "string" &&
-    typeof candidate.releaseDate === "string" &&
     (candidate.commitSha === null || typeof candidate.commitSha === "string") &&
     typeof candidate.fetchedAt === "number" &&
     typeof candidate.forVersion === "string"
@@ -92,7 +89,6 @@ async function readCache(
 
   return {
     version: stored.version,
-    releaseDate: stored.releaseDate,
     commitSha: stored.commitSha,
   };
 }
@@ -121,7 +117,6 @@ export async function fetchLatestRelease(
 
   const info: ReleaseInfo = {
     version: release.tag_name.replace(/^v/, ""),
-    releaseDate: release.published_at,
     commitSha: await fetchCommitSha(release.tag_name),
   };
 

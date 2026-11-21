@@ -28,6 +28,18 @@ function getBuildCommit(): string {
   }
 }
 
+function getBuildDate(): string {
+  try {
+    return execFileSync("git", ["log", "-1", "--format=%cs"], {
+      cwd: ROOT_DIR,
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+    }).trim();
+  } catch {
+    return "";
+  }
+}
+
 const isProduction = process.env.NODE_ENV === "production";
 
 // `.env.local` is only a fallback: dotenv never overrides a variable that is
@@ -85,6 +97,7 @@ await Promise.all([
     define: {
       __DEV__: JSON.stringify(!isProduction),
       __BUILD_COMMIT__: JSON.stringify(getBuildCommit()),
+      __BUILD_DATE__: JSON.stringify(getBuildDate()),
     },
   }),
 ]);
