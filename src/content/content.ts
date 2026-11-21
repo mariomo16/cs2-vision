@@ -70,14 +70,50 @@ async function init() {
       : "none";
   };
 
-  applyBlockVisibility(await readBlockSettings());
+  let settings = await readBlockSettings();
+  let csstatsLoaded = false;
+
+  const personaName =
+    document.querySelector(".actual_persona_name")?.textContent?.trim() ??
+    "Player";
+
+  const loadCsstats = async (): Promise<void> => {
+    if (csstatsLoaded) return;
+    csstatsLoaded = true;
+
+    const result: StatsResponse = await fetchPlayerStats(steamId64);
+
+    if (result.banText) {
+      insertBanText(result.banText);
+    }
+
+    statsPanel.innerHTML = "";
+
+    if (result.ok) {
+      populateStatsBlock(statsPanel, result.data, personaName, steamId64);
+    } else {
+      const msg = document.createElement("p");
+      msg.className = "csl-stats-unavailable";
+      msg.textContent =
+        result.error === "private"
+          ? "This profile has been set to private"
+          : result.error === "not_found"
+            ? "No matches have been added for this player"
+            : "Couldn't load stats from csstats.gg right now. Try refreshing the page.";
+      statsPanel.append(msg);
+    }
+  };
+
+  applyBlockVisibility(settings);
 
   chrome.storage.onChanged.addListener((changes, areaName) => {
     if (areaName !== "local" || !changes[BLOCK_SETTINGS_KEY]) return;
 
-    applyBlockVisibility(
-      normalizeBlockSettings(changes[BLOCK_SETTINGS_KEY].newValue),
-    );
+    const next = normalizeBlockSettings(changes[BLOCK_SETTINGS_KEY].newValue);
+    applyBlockVisibility(next);
+
+    if (!settings.csstats && next.csstats) void loadCsstats();
+    settings = next;
   });
 
   statsPanel.append(createLoadingSpinner());
@@ -85,31 +121,7 @@ async function init() {
   leetifyPanel.append(createLoadingSpinner());
   insertElement(container);
 
-  const personaName =
-    document.querySelector(".actual_persona_name")?.textContent?.trim() ??
-    "Player";
-
-  const result: StatsResponse = await fetchPlayerStats(steamId64);
-
-  if (result.banText) {
-    insertBanText(result.banText);
-  }
-
-  statsPanel.innerHTML = "";
-
-  if (result.ok) {
-    populateStatsBlock(statsPanel, result.data, personaName, steamId64);
-  } else {
-    const msg = document.createElement("p");
-    msg.className = "csl-stats-unavailable";
-    msg.textContent =
-      result.error === "private"
-        ? "This profile has been set to private"
-        : result.error === "not_found"
-          ? "No matches have been added for this player"
-          : "Couldn't load stats from csstats.gg right now. Try refreshing the page.";
-    statsPanel.append(msg);
-  }
+  if (settings.csstats) await loadCsstats();
 
   await Promise.all([
     fetchFaceitStats(steamId64).then((faceit) => {
