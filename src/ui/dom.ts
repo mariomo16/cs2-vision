@@ -44,6 +44,9 @@ export function insertElement(element: HTMLElement): boolean {
 
 export function buildShowcaseShell(): {
   container: HTMLElement;
+  csstatsBlock: HTMLElement;
+  faceitBlock: HTMLElement;
+  leetifyBlock: HTMLElement;
   statsPanel: HTMLElement;
   faceitPanel: HTMLElement;
   leetifyPanel: HTMLElement;
@@ -84,7 +87,15 @@ export function buildShowcaseShell(): {
 
   container.append(header, block1, block2, block3);
 
-  return { container, statsPanel, faceitPanel, leetifyPanel };
+  return {
+    container,
+    csstatsBlock: block1,
+    faceitBlock: block2,
+    leetifyBlock: block3,
+    statsPanel,
+    faceitPanel,
+    leetifyPanel,
+  };
 }
 
 export function createLoadingSpinner(): HTMLElement {

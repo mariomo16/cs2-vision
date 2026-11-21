@@ -61,6 +61,32 @@
         color: var(--csv-descriptionForeground);
         margin: 0;
       }
+
+      .block-toggles {
+        display: flex;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .csv-toggle {
+        flex: 1;
+        padding: 6px 8px;
+        font: inherit;
+        font-size: 12px;
+        line-height: 16px;
+        color: var(--csv-foreground);
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      .csv-toggle[aria-pressed="false"] {
+        color: var(--csv-descriptionForeground);
+        background: transparent;
+        border-color: rgba(255, 255, 255, 0.12);
+        opacity: 0.75;
+      }
     </style>
   </head>
   <body>
@@ -73,6 +99,19 @@
         <p class="meta-line" id="release-date">Released …</p>
       </div>
     </div>
+
+    <div class="block-toggles">
+      <button type="button" class="csv-toggle" data-block="csstats" aria-pressed="true">
+        CSStats
+      </button>
+      <button type="button" class="csv-toggle" data-block="faceit" aria-pressed="true">
+        FACEIT
+      </button>
+      <button type="button" class="csv-toggle" data-block="leetify" aria-pressed="true">
+        Leetify
+      </button>
+    </div>
+
     <script src="popup.js" defer></script>
   </body>
 </html>

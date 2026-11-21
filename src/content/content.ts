@@ -2,6 +2,14 @@ import { fetchPlayerStats, type StatsResponse } from "../services/csstats";
 import { fetchFaceitStats } from "../services/faceit";
 import { fetchLeetifyStats } from "../services/leetify";
 import {
+  BLOCK_KEYS,
+  BLOCK_SETTINGS_KEY,
+  type BlockKey,
+  type BlockSettings,
+  normalizeBlockSettings,
+  readBlockSettings,
+} from "../services/settings";
+import {
   buildShowcaseShell,
   createLoadingSpinner,
   insertBanText,
@@ -37,8 +45,41 @@ async function init() {
 
   insertSteamId(steamId64);
 
-  const { container, statsPanel, faceitPanel, leetifyPanel } =
-    buildShowcaseShell();
+  const {
+    container,
+    csstatsBlock,
+    faceitBlock,
+    leetifyBlock,
+    statsPanel,
+    faceitPanel,
+    leetifyPanel,
+  } = buildShowcaseShell();
+
+  const blocks: Record<BlockKey, HTMLElement> = {
+    csstats: csstatsBlock,
+    faceit: faceitBlock,
+    leetify: leetifyBlock,
+  };
+
+  const applyBlockVisibility = (settings: BlockSettings): void => {
+    for (const key of BLOCK_KEYS) {
+      blocks[key].style.display = settings[key] ? "" : "none";
+    }
+    container.style.display = BLOCK_KEYS.some((key) => settings[key])
+      ? ""
+      : "none";
+  };
+
+  applyBlockVisibility(await readBlockSettings());
+
+  chrome.storage.onChanged.addListener((changes, areaName) => {
+    if (areaName !== "local" || !changes[BLOCK_SETTINGS_KEY]) return;
+
+    applyBlockVisibility(
+      normalizeBlockSettings(changes[BLOCK_SETTINGS_KEY].newValue),
+    );
+  });
+
   statsPanel.append(createLoadingSpinner());
   faceitPanel.append(createLoadingSpinner());
   leetifyPanel.append(createLoadingSpinner());

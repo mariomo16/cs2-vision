@@ -1,3 +1,11 @@
+import {
+  BLOCK_KEYS,
+  type BlockKey,
+  type BlockSettings,
+  readBlockSettings,
+  writeBlockSettings,
+} from "../services/settings";
+
 const COMMIT_DISPLAY_LENGTH = 7;
 
 function getBuildCommit(): string | null {
@@ -35,7 +43,24 @@ function setText(id: string, text: string): void {
   if (element) element.textContent = text;
 }
 
-function init(): void {
+function getBlockKey(button: HTMLButtonElement): BlockKey | null {
+  const key = button.dataset.block;
+
+  if (key === "csstats" || key === "faceit" || key === "leetify") return key;
+
+  return null;
+}
+
+function applyBlockSettings(settings: BlockSettings): void {
+  for (const key of BLOCK_KEYS) {
+    const button = document.querySelector<HTMLButtonElement>(
+      `[data-block="${key}"]`,
+    );
+    if (button) button.setAttribute("aria-pressed", String(settings[key]));
+  }
+}
+
+async function init(): Promise<void> {
   const version = chrome.runtime.getManifest().version;
   const buildDate = getBuildDate();
 
@@ -49,6 +74,22 @@ function init(): void {
       ? `Released ${formatDate(buildDate)}`
       : "Released date unavailable",
   );
+
+  let settings = await readBlockSettings();
+  applyBlockSettings(settings);
+
+  document
+    .querySelectorAll<HTMLButtonElement>("[data-block]")
+    .forEach((button) => {
+      button.addEventListener("click", () => {
+        const key = getBlockKey(button);
+        if (!key) return;
+
+        settings = { ...settings, [key]: !settings[key] };
+        applyBlockSettings(settings);
+        void writeBlockSettings(settings).catch(() => {});
+      });
+    });
 }
 
-init();
+void init();
