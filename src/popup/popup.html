@@ -70,22 +70,32 @@
 
       .csv-toggle {
         flex: 1;
-        padding: 6px 8px;
-        font: inherit;
-        font-size: 12px;
-        line-height: 16px;
-        color: var(--csv-foreground);
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.22);
-        border-radius: 6px;
+        box-sizing: border-box;
+        height: 30px;
+        padding: 0 10px;
+        font-family: "Motiva Sans", Arial, Helvetica, sans-serif;
+        font-size: 15px;
+        line-height: 30px;
+        color: #ffffff;
+        background: linear-gradient(to right, #1a9fff 0%, #2870bd 100%);
+        border: 0;
+        border-radius: 2px;
         cursor: pointer;
+        text-align: center;
+      }
+
+      .csv-toggle:hover:not([aria-pressed="false"]) {
+        background: linear-gradient(to right, #56abff 0%, #1a9fff 100%);
       }
 
       .csv-toggle[aria-pressed="false"] {
-        color: var(--csv-descriptionForeground);
-        background: transparent;
-        border-color: rgba(255, 255, 255, 0.12);
-        opacity: 0.75;
+        color: rgba(255, 255, 255, 0.7);
+        background-color: rgba(82, 91, 59, 0.35);
+      }
+
+      .csv-toggle:focus-visible {
+        outline: 2px solid rgba(255, 255, 255, 0.6);
+        outline-offset: 1px;
       }
     </style>
   </head>
@@ -101,13 +111,28 @@
     </div>
 
     <div class="block-toggles">
-      <button type="button" class="csv-toggle" data-block="csstats" aria-pressed="true">
+      <button
+        type="button"
+        class="csv-toggle"
+        data-block="csstats"
+        aria-pressed="true"
+      >
         CSStats
       </button>
-      <button type="button" class="csv-toggle" data-block="faceit" aria-pressed="true">
+      <button
+        type="button"
+        class="csv-toggle"
+        data-block="faceit"
+        aria-pressed="true"
+      >
         FACEIT
       </button>
-      <button type="button" class="csv-toggle" data-block="leetify" aria-pressed="true">
+      <button
+        type="button"
+        class="csv-toggle"
+        data-block="leetify"
+        aria-pressed="true"
+      >
         Leetify
       </button>
     </div>
