@@ -334,7 +334,7 @@
   align-items: center;
   vertical-align: middle;
   opacity: 0.6;
-  transition: opacity 0.1s ease;
+  transition: opacity 0.15s ease;
   user-select: none;
 }
 
