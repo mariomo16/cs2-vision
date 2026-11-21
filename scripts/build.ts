@@ -95,7 +95,6 @@ await Promise.all([
     format: "iife",
     outfile: path.join(outDir, "popup.js"),
     define: {
-      __DEV__: JSON.stringify(!isProduction),
       __BUILD_COMMIT__: JSON.stringify(getBuildCommit()),
       __BUILD_DATE__: JSON.stringify(getBuildDate()),
     },

@@ -1,5 +1,3 @@
-import { fetchLatestRelease, GitHubRequestError } from "../services/github";
-
 const COMMIT_DISPLAY_LENGTH = 7;
 
 function getBuildCommit(): string | null {
@@ -37,17 +35,14 @@ function setText(id: string, text: string): void {
   if (element) element.textContent = text;
 }
 
-function getUpdateErrorMessage(error: unknown): string {
-  if (error instanceof GitHubRequestError && error.status === 403) {
-    return "Rate limit reached, try again later";
-  }
-
-  return "Couldn't check for updates";
-}
-
-function renderReleaseDate(): void {
+function init(): void {
+  const version = chrome.runtime.getManifest().version;
   const buildDate = getBuildDate();
 
+  setText(
+    "current-version",
+    `Current Version: ${formatVersion(version, getBuildCommit())}`,
+  );
   setText(
     "release-date",
     buildDate
@@ -56,28 +51,4 @@ function renderReleaseDate(): void {
   );
 }
 
-async function init(): Promise<void> {
-  const version = chrome.runtime.getManifest().version;
-
-  setText(
-    "current-version",
-    `Current Version: ${formatVersion(version, getBuildCommit())}`,
-  );
-  renderReleaseDate();
-
-  try {
-    const release = await fetchLatestRelease(version);
-
-    setText(
-      "latest-version",
-      `Latest Version: ${formatVersion(release.version, release.commitSha)}`,
-    );
-  } catch (error) {
-    setText(
-      "latest-version",
-      `Latest Version: ${getUpdateErrorMessage(error)}`,
-    );
-  }
-}
-
-void init();
+init();
