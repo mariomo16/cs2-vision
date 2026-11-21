@@ -44,9 +44,6 @@ export function insertElement(element: HTMLElement): boolean {
 
 export function buildShowcaseShell(): {
   container: HTMLElement;
-  csstatsBlock: HTMLElement;
-  faceitBlock: HTMLElement;
-  leetifyBlock: HTMLElement;
   statsPanel: HTMLElement;
   faceitPanel: HTMLElement;
   leetifyPanel: HTMLElement;
@@ -66,36 +63,25 @@ export function buildShowcaseShell(): {
 
   header.append(titleSpan, faceitInfo);
 
-  // Create 3 separate showcase_content_bg containers
-  const block1 = document.createElement("div");
-  block1.className = "profile_customization_block csl-csstats-block";
+  const block = document.createElement("div");
+  block.className = "profile_customization_block csl-showcase-block";
+
   const statsPanel = document.createElement("div");
-  statsPanel.className = "showcase_content_bg csl-showcase-content-bg";
-  block1.append(statsPanel);
+  statsPanel.className =
+    "showcase_content_bg csl-showcase-content-bg csl-csstats-block";
 
-  const block2 = document.createElement("div");
-  block2.className = "profile_customization_block csl-faceit-block";
   const faceitPanel = document.createElement("div");
-  faceitPanel.className = "showcase_content_bg csl-showcase-content-bg";
-  block2.append(faceitPanel);
+  faceitPanel.className =
+    "showcase_content_bg csl-showcase-content-bg csl-faceit-block";
 
-  const block3 = document.createElement("div");
-  block3.className = "profile_customization_block csl-leetify-block";
   const leetifyPanel = document.createElement("div");
-  leetifyPanel.className = "showcase_content_bg csl-showcase-content-bg";
-  block3.append(leetifyPanel);
+  leetifyPanel.className =
+    "showcase_content_bg csl-showcase-content-bg csl-leetify-block";
 
-  container.append(header, block1, block2, block3);
+  block.append(statsPanel, faceitPanel, leetifyPanel);
+  container.append(header, block);
 
-  return {
-    container,
-    csstatsBlock: block1,
-    faceitBlock: block2,
-    leetifyBlock: block3,
-    statsPanel,
-    faceitPanel,
-    leetifyPanel,
-  };
+  return { container, statsPanel, faceitPanel, leetifyPanel };
 }
 
 export function createLoadingSpinner(): HTMLElement {
