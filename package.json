@@ -19,9 +19,9 @@
   ],
   "author": "Mario Ortega",
   "license": "MIT",
-  "packageManager": "pnpm@12.18.0",
+  "packageManager": "pnpm@12.21.0",
   "devDependencies": {
-    "@biomejs/biome": "2.6.7",
+    "@biomejs/biome": "2.6.8",
     "@types/chrome": "^0.3.7",
     "@types/node": "^24.19.2",
     "cross-env": "^10.1.0",
