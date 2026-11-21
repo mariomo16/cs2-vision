@@ -411,6 +411,7 @@
   display: grid;
   grid-template-columns: 1fr var(--csl-side-column-width);
   gap: 24px;
+  align-items: start;
 }
 
 .csl-leetify-body {
