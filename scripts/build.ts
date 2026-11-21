@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { cp, mkdir, rm } from "node:fs/promises";
+import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { config as loadEnv } from "dotenv";
 import { type BuildOptions, build } from "esbuild";
@@ -8,10 +8,13 @@ import {
   CONTENT_CSS_SOURCE,
   DEV_DIST_DIR,
   DIST_DIR,
+  type ExtensionManifest,
   MANIFEST_SOURCE,
   POPUP_HTML_SOURCE,
   ROOT_DIR,
 } from "./lib/extension.ts";
+
+const DEV_NAME_SUFFIX = " (Dev)";
 
 function getBuildCommit(): string {
   const githubSha = process.env.GITHUB_SHA;
@@ -103,8 +106,20 @@ await Promise.all([
 
 // The manifest, the content script stylesheet and the static assets are copied
 // verbatim, so the output directory is a self-contained, loadable extension.
+// The development build is labelled so it cannot be confused with the store
+// build when both are installed from their unpacked directories.
+const manifest = JSON.parse(
+  await readFile(MANIFEST_SOURCE, "utf8"),
+) as ExtensionManifest;
+
+if (!isProduction) {
+  manifest.name = `${manifest.name}${DEV_NAME_SUFFIX}`;
+}
+
+const manifestJson = `${JSON.stringify(manifest, null, 2)}\n`;
+
 await Promise.all([
-  cp(MANIFEST_SOURCE, path.join(outDir, "manifest.json")),
+  writeFile(path.join(outDir, "manifest.json"), manifestJson),
   cp(CONTENT_CSS_SOURCE, path.join(outDir, "content.css")),
   cp(POPUP_HTML_SOURCE, path.join(outDir, "popup.html")),
   cp(ASSETS_DIR, path.join(outDir, "assets"), { recursive: true }),
