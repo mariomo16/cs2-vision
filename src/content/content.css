@@ -128,8 +128,11 @@
   padding: 16px;
 }
 
-.csl-leetify-block > div > .csl-container-stats-grid {
-  margin-top: 8px;
+.csl-container-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 12px;
 }
 
 .csl-premier-container {
@@ -381,11 +384,8 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
 
-.csl-container-stats-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-bottom: 12px;
+.csl-leetify-block > div > .csl-container-stats-grid {
+  margin-top: 8px;
 }
 
 .csl-grid-stat {
