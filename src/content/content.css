@@ -8,24 +8,6 @@
 }
 
 @font-face {
-  font-display: swap;
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 800;
-  src: url("chrome-extension://__MSG_@@extension_id__/assets/fonts/poppins-v24-latin-800.woff2")
-    format("woff2");
-}
-
-@font-face {
-  font-display: swap;
-  font-family: "Roboto Condensed";
-  font-style: normal;
-  font-weight: 400;
-  src: url("chrome-extension://__MSG_@@extension_id__/assets/fonts/roboto-condensed-v31-latin-regular.woff2")
-    format("woff2");
-}
-
-@font-face {
   font-family: "Inter";
   src: url("chrome-extension://__MSG_@@extension_id__/assets/fonts/InterVariable.woff2")
     format("woff2");
@@ -397,10 +379,12 @@
 }
 
 .csl-grid-stat-value {
+  font-family: "Inter", monospace;
+  font-variant-numeric: tabular-nums;
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 700;
   color: #eceff1;
-  line-height: 1.2;
+  line-height: 1.1;
 }
 
 .csl-grid-stat-value[data-sign] {
