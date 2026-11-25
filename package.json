@@ -1,34 +1,22 @@
 {
-  "name": "cs2-vision",
-  "version": "1.1.0",
-  "description": "View CSStats, FACEIT and Leetify data, plus Steam account information.",
+  "name": "cs2-vision-monorepo",
+  "private": true,
+  "description": "Monorepo for the cs2-vision Chrome extension and its API proxy",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development node scripts/build.ts",
-    "build": "cross-env NODE_ENV=production node scripts/build.ts",
-    "validate": "node scripts/validate.ts",
-    "package": "node scripts/package.ts",
-    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.scripts.json",
-    "lint": "biome check .",
+    "dev:extension": "pnpm --filter cs2-vision-extension dev",
+    "build": "pnpm -r --if-present build",
+    "package:extension": "pnpm --filter cs2-vision-extension package",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "lint": "biome lint .",
     "format": "biome format --write .",
-    "check": "pnpm typecheck && pnpm lint"
+    "check": "biome check --write .",
+    "check:ci": "pnpm typecheck && biome check ."
   },
-  "keywords": [
-    "chrome-extension",
-    "steam",
-    "cs2"
-  ],
-  "author": "Mario Ortega",
-  "license": "MIT",
-  "packageManager": "pnpm@12.21.0",
+  "packageManager": "pnpm@12.23.0",
+  "engines": {
+    "node": ">=24"
+  },
   "devDependencies": {
-    "@biomejs/biome": "2.6.8",
-    "@types/chrome": "^0.3.7",
-    "@types/node": "^24.19.2",
-    "cross-env": "^10.1.0",
-    "dotenv": "^18.0.10",
-    "esbuild": "^0.28.2",
-    "fflate": "^0.8.3",
-    "typescript": "^7.0.2"
-  },
-  "type": "module"
+    "@biomejs/biome": "2.6.9"
+  }
 }

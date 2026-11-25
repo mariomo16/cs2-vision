@@ -1,7 +1,10 @@
-dist/
-dist-dev/
+# Dependencies
 node_modules/
-private/
-release/
-.env.local
+
+# Environment variables
+.env
+.env.*
 !.env.example
+
+# Vercel
+.vercel/
