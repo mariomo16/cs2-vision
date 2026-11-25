@@ -1,17 +1,8 @@
 {
   "name": "cs2-vision-proxy",
+  "private": true,
   "version": "1.0.0",
   "description": "Secure API proxy for the cs2-vision Chrome extension",
-  "scripts": {
-    "lint": "biome lint .",
-    "format": "biome format --write .",
-    "check": "biome check --write .",
-    "check:ci": "biome check ."
-  },
   "author": "Mario Ortega",
-  "license": "MIT",
-  "packageManager": "pnpm@12.23.0",
-  "devDependencies": {
-    "@biomejs/biome": "2.6.8"
-  }
+  "license": "MIT"
 }

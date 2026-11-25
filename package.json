@@ -1,0 +1,22 @@
+{
+  "name": "cs2-vision-monorepo",
+  "private": true,
+  "description": "Monorepo for the cs2-vision Chrome extension and its API proxy",
+  "scripts": {
+    "dev:extension": "pnpm --filter cs2-vision-extension dev",
+    "build": "pnpm -r --if-present build",
+    "package:extension": "pnpm --filter cs2-vision-extension package",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "lint": "biome lint .",
+    "format": "biome format --write .",
+    "check": "biome check --write .",
+    "check:ci": "pnpm typecheck && biome check ."
+  },
+  "packageManager": "pnpm@12.23.0",
+  "engines": {
+    "node": ">=24"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.6.9"
+  }
+}
