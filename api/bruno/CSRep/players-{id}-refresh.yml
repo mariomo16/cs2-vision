@@ -1,0 +1,18 @@
+info:
+  name: /players/{id}/refresh
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: https://csrep.gg/api/players/{{id}}/refresh
+  headers:
+    - name: X-API-Key
+      value: "{{SECRET_TOKEN}}"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
