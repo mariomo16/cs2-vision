@@ -3,6 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "description": "Secure API proxy for the cs2-vision Chrome extension",
+  "type": "module",
   "author": "Mario Ortega",
   "license": "MIT"
 }
