@@ -1,5 +1,5 @@
 {
-  "name": "cs2-vision-proxy",
+  "name": "cs2-vision-web",
   "private": true,
   "version": "1.0.0",
   "description": "Secure API proxy for the cs2-vision Chrome extension",
