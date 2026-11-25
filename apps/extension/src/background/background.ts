@@ -1,4 +1,4 @@
-const ALLOWED_HOSTS = ["csstats.gg", "cs2-lens-proxy.vercel.app"];
+const ALLOWED_HOSTS = ["csstats.gg", "cs2vision.vercel.app"];
 
 const REQUEST_TIMEOUT_MS = 15_000;
 

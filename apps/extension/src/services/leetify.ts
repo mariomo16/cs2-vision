@@ -1,6 +1,6 @@
 import { sendFetchMessage } from "./chrome-message";
 
-const LEETIFY_API_BASE = "https://cs2-lens-proxy.vercel.app/api/leetify";
+const LEETIFY_API_BASE = "https://cs2vision.vercel.app/api/leetify";
 
 export interface LeetifyStats {
   name: string | null;

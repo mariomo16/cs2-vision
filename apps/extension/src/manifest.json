@@ -23,7 +23,7 @@
   "permissions": ["storage"],
   "host_permissions": [
     "https://csstats.gg/*",
-    "https://cs2-lens-proxy.vercel.app/*"
+    "https://cs2vision.vercel.app/*"
   ],
   "content_scripts": [
     {
