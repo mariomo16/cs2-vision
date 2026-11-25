@@ -1,7 +1,4 @@
 dist/
 dist-dev/
-node_modules/
 private/
 release/
-.env.local
-!.env.example
